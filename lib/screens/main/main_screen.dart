@@ -1,5 +1,4 @@
 import 'package:admin/responsive.dart';
-import 'package:admin/util/localiziation/localization.dart';
 import 'package:flutter/material.dart';
 import '../dashboard/dashboard_screen.dart';
 import 'components/side_menu.dart';

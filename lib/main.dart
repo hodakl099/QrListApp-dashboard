@@ -1,3 +1,4 @@
+import 'package:admin/components/applocal.dart';
 import 'package:admin/constants.dart';
 import 'package:admin/controllers/MenuAppController.dart';
 import 'package:admin/screens/main/main_screen.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'langs/langs.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -36,16 +36,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale : Locale('ar'),
+      locale : Locale('ar', "SA"),
       localizationsDelegates: [
+        AppLocale.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: Langs.locales,
+      supportedLocales: [
+        Locale("ar","SA"),
+        Locale("en", "USA")
+      ],
       navigatorKey: navigatorKey,
+      localeResolutionCallback: (currentLang, supportLang) {
+        if (currentLang != null) {
+          for (Locale locale in supportLang) {
+            if (locale.languageCode == currentLang.languageCode) {
+              return currentLang;
+            }
+          }
+        }
+        return supportLang.first;
+      },
       debugShowCheckedModeBanner: false,
-      title: 'Taj Akar Admin Panel',
+      title: 'QR Admin Panel',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)

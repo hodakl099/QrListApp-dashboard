@@ -1,8 +1,5 @@
-import 'package:admin/screens/commercial/commercial_screen.dart';
-import 'package:admin/screens/employee/employee_screen.dart';
+import 'package:admin/components/applocal.dart';
 import 'package:admin/screens/login/login_screen.dart';
-import 'package:admin/screens/main/main_screen.dart';
-import 'package:admin/screens/residential/residential_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,10 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../main.dart';
-import '../../agricultural/agricultural_screen.dart';
-import '../../industrial/industrial_screen.dart';
-import '../../office/office_screen.dart';
-import '../../touristic/touristic_screen.dart';
+import '../../categories/categories_screen.dart';
+
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -31,95 +26,29 @@ class SideMenu extends StatelessWidget {
             child: Image.asset("assets/images/tajakar.png"),
           ),
           DrawerListTile(
-            title: "Dashboard",
-            svgSrc: "assets/icons/menu_dashboard.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Agricultural",
+            title: "${getLang(context, 'Category')}",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => AgriculturalScreen(),
+                  builder: (context) => CategoriesScreen(),
                 ),
               );
             },
           ),
           DrawerListTile(
-            title: "Commercial",
+            title: "${getLang(context, 'Product')}",
             svgSrc: "assets/icons/menu_tran.svg",
             press: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CommercialScreen(),
+                  builder: (context) => CategoriesScreen(),
                 ),
               );
             },
           ),
           DrawerListTile(
-            title: "Industrial",
-            svgSrc: "assets/icons/menu_tran.svg",
-            press: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => IndustrialScreen(),
-                ),
-              );
-            },
-          ),
-          DrawerListTile(
-            title: "Offices",
-            svgSrc: "assets/icons/menu_tran.svg",
-            press: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => OfficeScreen(),
-                ),
-              );
-            },
-          ),
-          DrawerListTile(
-            title: "Residential",
-            svgSrc: "assets/icons/menu_tran.svg",
-            press: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ResidentialScreen(),
-                ),
-              );
-            },
-          ),
-          DrawerListTile(
-            title: "Touristic",
-            svgSrc: "assets/icons/menu_tran.svg",
-            press: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TouristicScreen(),
-                ),
-              );
-            },
-          ),
-          if (menuAppController.role == "admin")
-            DrawerListTile(
-              title: "Employees",
-              svgSrc: "assets/icons/menu_notification.svg",
-              press: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => EmployeeScreen()
-                    )
-                );
-              },
-            ),
-          DrawerListTile(
-            title: "Notification",
-            svgSrc: "assets/icons/menu_notification.svg",
-            press: () {},
-          ),
-          DrawerListTile(
-            title: "Logout",
+            title:"${getLang(context, 'Logout')}",
             svgSrc: "assets/icons/menu_setting.svg",
             press: () {
               _showSignOutDialog(context);
@@ -130,7 +59,6 @@ class SideMenu extends StatelessWidget {
     );
   }
 
-  /// Sign out.
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }

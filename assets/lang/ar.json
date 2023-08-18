@@ -1,3 +1,11 @@
 {
-  "Mahmoud" : "محمود"
+  "TAJ MEDIA" : "TAJ MEDIA",
+  "dashboard" : "لوحة التحكم",
+  "Category" : "الاقسام",
+  "Product" : "المنتجات",
+  "Logout" : "تسجيل الخروج",
+  "Add New Category" : "اضف قسم",
+  "There is no Categories available." : "اضف قسم",
+  "empty" : "لايوجد عناصر",
+  "error": "مشكلة من الخادم"
 }

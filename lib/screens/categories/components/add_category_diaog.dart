@@ -1,37 +1,38 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:admin/models/touristic_model/TouristicProperty.dart';
-import 'package:admin/server/touristic/get/get_all_touristic.dart';
-import 'package:admin/server/touristic/post/api_calls_mobile.dart';
-import 'package:admin/server/touristic/post/api_calls_web.dart';
 import 'package:flutter/material.dart';
+import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../server/agricultural/get/get_all_agricaltural.dart';
+import '../../../server/agricultural/post/api_calls_mobile.dart';
+import '../../../server/agricultural/post/api_calls_web.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class AddTouristicDialog extends StatefulWidget {
-  final ValueNotifier<int> refreshPropertiesNotifier;
+class AddCategoryDialog extends StatefulWidget {
+  final ValueNotifier<int> refreshCategoriesNotifier;
 
-  AddTouristicDialog({required this.refreshPropertiesNotifier});
+  AddCategoryDialog({required this.refreshCategoriesNotifier});
 
   @override
-  _AddTouristicDialogState createState() => _AddTouristicDialogState();
+  _AddCategoryDialogState createState() => _AddCategoryDialogState();
 }
 
-class _AddTouristicDialogState extends State<AddTouristicDialog> {
-  late Future<List<TouristicPropertyApi>> _propertiesFuture;
+class _AddCategoryDialogState extends State<AddCategoryDialog> {
+  late Future<List<CategoryApi>> _propertiesFuture;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _agentContactController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
+  TextEditingController _propertyTypeController = TextEditingController();
   TextEditingController _acresController = TextEditingController();
-  TextEditingController _roomsController = TextEditingController();
-  TextEditingController _unitsController = TextEditingController();
-  TextEditingController _amenitiesController = TextEditingController();
-  TextEditingController _proximityToAttractionsController = TextEditingController();
-  TextEditingController _occupancyRateController = TextEditingController();
+  TextEditingController _buildingsController = TextEditingController();
+  TextEditingController _cropsController = TextEditingController();
+  TextEditingController _waterSourcesController = TextEditingController();
+  TextEditingController _soilTypeController = TextEditingController();
+  TextEditingController _equipmentController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
 
   List<dynamic> _images = [];
   List<dynamic> _videos = [];
@@ -42,7 +43,7 @@ class _AddTouristicDialogState extends State<AddTouristicDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllTouristic();
+    _propertiesFuture = fetchAllAgricultural();
   }
 
   @override
@@ -55,7 +56,7 @@ class _AddTouristicDialogState extends State<AddTouristicDialog> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextFormField(
-                initialValue: 'Touristic',
+                initialValue: 'Agricultural',
                 enabled: false,
                 decoration: InputDecoration(labelText: "Property Type"),
                 keyboardType: TextInputType.text,
@@ -107,74 +108,70 @@ class _AddTouristicDialogState extends State<AddTouristicDialog> {
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
-                controller: _roomsController,
-                decoration:
-                InputDecoration(labelText: "Rooms"),
+                controller: _buildingsController,
+                decoration: InputDecoration(labelText: "Buildings"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter the number of rooms';
-                  }
-                  final int? acres = int.tryParse(value);
-                  if (acres == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _unitsController,
-                decoration:
-                InputDecoration(labelText: "units"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Number of bathrooms.';
-                  }
-                  final int? acres = int.tryParse(value);
-                  if (acres == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _amenitiesController,
-                decoration: InputDecoration(labelText: "Amenities"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Amenities description.';
+                    return 'Please enter valid Buildings';
                   }
                   if (value.length > 256) {
-                    return 'Amenities description must be less than 256 characters';
+                    return 'Crops description must be less than 256 characters';
                   }
                   return null;
                 },
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
-                controller: _proximityToAttractionsController,
-                decoration: InputDecoration(labelText: "Proximity to attractions"),
+                controller: _cropsController,
+                decoration: InputDecoration(labelText: "Crops"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter parking description.';
+                    return 'Please enter Crops.';
                   }
                   if (value.length > 256) {
-                    return 'parking description must be less than 256 characters';
+                    return 'Crops description must be less than 256 characters';
                   }
                   return null;
                 },
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
-                controller: _occupancyRateController,
-                decoration: InputDecoration(labelText: "Occupancy Rate"),
+                controller: _waterSourcesController,
+                decoration: InputDecoration(labelText: "Water Sources"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter Occupancy Rate.';
+                    return 'Please enter Water Sources.';
                   }
                   if (value.length > 256) {
-                    return 'Occupancy Rate description must be less than 256 characters';
+                    return 'Crops description must be less than 256 characters';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+              ),
+              TextFormField(
+                controller: _soilTypeController,
+                decoration: InputDecoration(labelText: "Soil Type"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter Soil Type.';
+                  }
+                  if (value.length > 256) {
+                    return 'Crops description must be less than 256 characters';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+              ),
+              TextFormField(
+                controller: _equipmentController,
+                decoration: InputDecoration(labelText: "Equipment"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter valid equipment.';
+                  }
+                  if (value.length > 256) {
+                    return 'Crops description must be less than 256 characters';
                   }
                   return null;
                 },
@@ -253,19 +250,17 @@ class _AddTouristicDialogState extends State<AddTouristicDialog> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _showLoadingDialog(context);
-                    if (
-                        _agentContactController.text.isEmpty ||
+                    if (_agentContactController.text.isEmpty ||
                         _priceController.text.isEmpty ||
-                        _locationController.text.isEmpty ||
                         _acresController.text.isEmpty ||
-                        _roomsController.text.isEmpty ||
-                        _unitsController.text.isEmpty ||
-                        _amenitiesController.text.isEmpty ||
-                        _proximityToAttractionsController.text.isEmpty ||
-                            _occupancyRateController.text.isEmpty ||
+                        _buildingsController.text.isEmpty ||
+                        _cropsController.text.isEmpty ||
+                        _waterSourcesController.text.isEmpty ||
+                        _soilTypeController.text.isEmpty ||
+                        _equipmentController.text.isEmpty ||
+                        _locationController.text.isEmpty ||
                         _images.isEmpty ||
-                        _videos.isEmpty)
-                    {
+                        _videos.isEmpty) {
                       Navigator.of(context, rootNavigator: true).pop();
 
                       final snackBar = SnackBar(
@@ -283,48 +278,22 @@ class _AddTouristicDialogState extends State<AddTouristicDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final property = TouristicPropertyApi(
-                          propertyType: 'Touristic',
-                          location: _locationController.text,
-                          agentContact: _agentContactController.text,
-                          price: int.tryParse(_priceController.text) ?? 0,
-                          acres: int.tryParse(_acresController.text) ?? 0,
-                          amenities: _amenitiesController.text,
-                          proximityToAttractions: _proximityToAttractionsController.text,
-                          occupancyRate: _occupancyRateController.text,
-                          rooms:int.tryParse(_roomsController.text) ?? 0,
-                          units:int.tryParse(_unitsController.text) ?? 0,
-                          images: _images,
-                          videos: _videos,
-                        );
-                        response =
-                            await uploadTouristicPropertyWeb(property);
+                        final property = CategoryApi(name: '', image: '');
+                        // response =
+                        //     await uploadAgriculturalPropertyWeb(property);
                       } else {
                         // Mobile-specific logic
-                        final property = TouristicPropertyApi(
-                          propertyType: 'Touristic',
-                          location: _locationController.text,
-                          agentContact: _agentContactController.text,
-                          price: int.tryParse(_priceController.text) ?? 0,
-                          acres: int.tryParse(_acresController.text) ?? 0,
-                          amenities: _amenitiesController.text,
-                          proximityToAttractions: _proximityToAttractionsController.text,
-                          occupancyRate: _occupancyRateController.text,
-                          rooms:int.tryParse(_roomsController.text) ?? 0,
-                          units:int.tryParse(_unitsController.text) ?? 0,
-                          images: _images,
-                          videos: _videos,
-                        );
-                        response =
-                            await uploadTouristicPropertyMobile(property);
+                        final property = CategoryApi(name: '', image: '');
+                        // response =
+                        //     await uploadAgriculturalPropertyMobile(property);
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllTouristic();
+                          _propertiesFuture = fetchAllAgricultural();
                         });
-                        widget.refreshPropertiesNotifier.value++;
+                        widget.refreshCategoriesNotifier.value++;
                       } else {
                         var responseBody =
                             await response.stream.bytesToString();

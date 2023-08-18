@@ -4,16 +4,16 @@ import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../models/agricultural_model/AgriculturalProperty.dart';
 import '../../../server/agricultural/get/get_all_agricaltural.dart';
-import 'add_agricaltural_diaog.dart';
-import 'property_card.dart';
+import 'add_category_diaog.dart';
+import 'category_card.dart';
 
-class MyProperties extends StatefulWidget {
+class Categories extends StatefulWidget {
   @override
-  _MyPropertiesState createState() => _MyPropertiesState();
+  _CategoriesState createState() => _CategoriesState();
 }
 
-class _MyPropertiesState extends State<MyProperties> {
-  late Future<List<AgriculturalPropertyApi>> _propertiesFuture;
+class _CategoriesState extends State<Categories> {
+  late Future<List<CategoryApi>> _propertiesFuture;
 
 
 
@@ -41,7 +41,7 @@ class PropertyListPage extends StatefulWidget {
 }
 
 class _PropertyListPageState extends State<PropertyListPage> {
-  late Future<List<AgriculturalPropertyApi>> properties;
+  late Future<List<CategoryApi>> properties;
 
 
   @override
@@ -54,14 +54,14 @@ class _PropertyListPageState extends State<PropertyListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<AgriculturalPropertyApi>>(
+      body: FutureBuilder<List<CategoryApi>>(
         future: properties,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return PropertyListCard(property: snapshot.data![index], info: null,);
+                return CategoryCard(property: snapshot.data![index], info: null,);
               },
             );
           } else if (snapshot.hasError) {
@@ -75,7 +75,7 @@ class _PropertyListPageState extends State<PropertyListPage> {
 }
 
 class FileInfoCardGridView extends StatelessWidget {
-  final List<AgriculturalPropertyApi> properties;
+  final List<CategoryApi> properties;
   final int crossAxisCount;
   final double childAspectRatio;
 
@@ -99,7 +99,7 @@ class FileInfoCardGridView extends StatelessWidget {
         mainAxisSpacing: defaultPadding,
         childAspectRatio: childAspectRatio,
       ),
-      itemBuilder: (context, index) => PropertyListCard(property: properties[index], info: null,),
+      itemBuilder: (context, index) => CategoryCard(property: properties[index], info: null,),
     );
   }
 }

@@ -1,41 +1,34 @@
-
-import 'package:admin/models/office_model/CommercialProperty.dart';
-import 'package:admin/models/residential_model/ResidentialProperty.dart';
-import 'package:admin/models/touristic_model/TouristicProperty.dart';
+import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/server/office/get/get_all_office.dart';
-import 'package:admin/server/residential/get/get_all_office.dart';
-import 'package:admin/server/touristic/get/get_all_touristic.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
-import 'add_touristic_diaog.dart';
-import 'touristic_card.dart';
-import 'touristic_detail.dart';
+import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../server/agricultural/get/get_all_agricaltural.dart';
+import 'add_category_diaog.dart';
+import 'category_card.dart';
+import 'category_detail.dart';
 
-class ResidentialProperties extends StatefulWidget {
+class Categories extends StatefulWidget {
   @override
-  _ResidentialPropertiesState createState() => _ResidentialPropertiesState();
+  _CategoriesState createState() => _CategoriesState();
 }
 
-class _ResidentialPropertiesState extends State<ResidentialProperties> {
-  final ValueNotifier<int> _refreshPropertiesNotifier = ValueNotifier<int>(0);
-  Future<List<TouristicPropertyApi>>? _propertiesFuture;
-
-
+class _CategoriesState extends State<Categories> {
+  final ValueNotifier<int> _refreshCategoriesNotifier = ValueNotifier<int>(0);
+  Future<List<CategoryApi>>? _propertiesFuture;
 
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllTouristic();
+    _propertiesFuture = fetchAllAgricultural();
   }
 
 
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
-
     MenuAppController menuAppController = context.read<MenuAppController>();
     return Column(
       children: [
@@ -43,8 +36,9 @@ class _ResidentialPropertiesState extends State<ResidentialProperties> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Touristic Properties",
-              style: Theme.of(context).textTheme.titleMedium,
+              "${getLang(context, 'Category')}",
+              style: Theme.of(context).textTheme.titleLarge,
+
             ),
             ElevatedButton.icon(
               style: TextButton.styleFrom(
@@ -58,37 +52,21 @@ class _ResidentialPropertiesState extends State<ResidentialProperties> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    if (menuAppController.userPermissions.contains('Add'))
-                      return AddTouristicDialog(refreshPropertiesNotifier: _refreshPropertiesNotifier);
-                    else
-                      return AlertDialog(
-                        title: Text('Invalid credential'),
-                        content: Text(
-                            'OPS!...you dont have the credentials to add Properties'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Dismiss'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
+                      return  AddCategoryDialog(refreshCategoriesNotifier: _refreshCategoriesNotifier,);
                   }
-
                 );
               },
               icon: Icon(Icons.add),
-              label: Text("Add New Property"),
+              label: Text("${getLang(context, 'Add New Category')}"),
             ),
           ],
         ),
         SizedBox(height: defaultPadding),
         ValueListenableBuilder(
-          valueListenable: _refreshPropertiesNotifier,
+          valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
-            return FutureBuilder<List<TouristicPropertyApi>>(
-              future: fetchAllTouristic(),
+            return FutureBuilder<List<CategoryApi>>(
+              future: Future.value(getDummyProperties()),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Responsive(
@@ -97,16 +75,16 @@ class _ResidentialPropertiesState extends State<ResidentialProperties> {
                       crossAxisCount: _size.width < 650 ? 2 : 4,
                       childAspectRatio: _size.width < 650 && _size.width > 350
                           ? 1.3
-                          : 1, refreshPropertiesNotifier: _refreshPropertiesNotifier,
+                          : 1, refreshPropertiesNotifier: _refreshCategoriesNotifier,
                     ),
-                    tablet: FileInfoCardGridView(properties: snapshot.data!, refreshPropertiesNotifier: _refreshPropertiesNotifier,),
+                    tablet: FileInfoCardGridView(properties: snapshot.data!, refreshPropertiesNotifier: _refreshCategoriesNotifier,),
                     desktop: FileInfoCardGridView(
                       properties: snapshot.data!,
-                      childAspectRatio: _size.width < 1400 ? 1.1 : 1.4, refreshPropertiesNotifier: _refreshPropertiesNotifier,
+                      childAspectRatio: _size.width < 1400 ? 1.1 : 1.4, refreshPropertiesNotifier: _refreshCategoriesNotifier,
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  return Text("There is no Touristic Properties available.");
+                  return Text("${getLang(context, 'empty')}");
                 }
                 return CircularProgressIndicator();
               },
@@ -119,26 +97,26 @@ class _ResidentialPropertiesState extends State<ResidentialProperties> {
 
   @override
   void dispose() {
-    _refreshPropertiesNotifier.dispose();
+    _refreshCategoriesNotifier.dispose();
     super.dispose();
   }
 
 
 }
 
-class PropertyListPage extends StatefulWidget {
+class CategoryListPage extends StatefulWidget {
   @override
-  _PropertyListPageState createState() => _PropertyListPageState();
+  _CategoryListPageState createState() => _CategoryListPageState();
 }
 
-class _PropertyListPageState extends State<PropertyListPage> {
-  late Future<List<ResidentialPropertyApi>> properties;
+class _CategoryListPageState extends State<CategoryListPage> {
+  late Future<List<CategoryApi>> properties;
   final ValueNotifier<int> _refreshPropertiesNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
     super.initState();
-    properties = fetchAllResidential();
+    properties = fetchAllAgricultural();
   }
 
 
@@ -149,22 +127,22 @@ class _PropertyListPageState extends State<PropertyListPage> {
         valueListenable: _refreshPropertiesNotifier,
           builder: (context, value, child) {
           print(value);
-            return FutureBuilder<List<TouristicPropertyApi>>(
-              future: fetchAllTouristic(),
+            return FutureBuilder<List<CategoryApi>>(
+              future: Future.value(getDummyProperties()),
               builder: (context, snapshot) {
                 if(snapshot.data!.isEmpty) {
-                  return Center(child: Text("No properties available"));
+                  return Center(child: Text("${getLang(context, 'error')}"));
                 }
                 if (snapshot.hasData) {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return TouristicCard(
+                      return CategoryCard(
                         property: snapshot.data![index], info: null, refreshPropertiesNotifier: _refreshPropertiesNotifier,);
                     },
                   );
                 } else if (snapshot.hasError) {
-                  return Text("There is no Residential Properties available.");
+                  return Text("${getLang(context, 'error')}");
                 }
                 return CircularProgressIndicator();
               },
@@ -182,7 +160,7 @@ class _PropertyListPageState extends State<PropertyListPage> {
 }
 
 class FileInfoCardGridView extends StatelessWidget {
-  final List<TouristicPropertyApi> properties;
+  final List<CategoryApi> properties;
   final int crossAxisCount;
   final double childAspectRatio;
   final ValueNotifier<int> refreshPropertiesNotifier;
@@ -210,20 +188,28 @@ class FileInfoCardGridView extends StatelessWidget {
           onTap: () {
             var propertyId = properties[index].id;
             print('Property ID: $propertyId');
+
             if (propertyId != null) {
               showDialog(
                 context: context,
-                builder: (context) => TouristicDetailDialog(propertyId: propertyId, refreshPropertiesNotifier :refreshPropertiesNotifier),
+                builder: (context) => CategoryDetailDialog(propertyId: propertyId, refreshPropertiesNotifier :refreshPropertiesNotifier),
               );
             } else {
-              print("Property ID is null");
+              print("Category ID is null");
             }
           },
-          child: TouristicCard(property: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
+          child: CategoryCard(property: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
       ),
 
 
     );
   }
 }
+
+List<CategoryApi> getDummyProperties() {
+  return List.generate(10, (index) => CategoryApi(name: 'Mojito', image: ''
+
+  ));
+}
+
 

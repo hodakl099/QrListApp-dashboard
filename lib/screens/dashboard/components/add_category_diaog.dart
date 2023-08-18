@@ -1,38 +1,38 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:admin/models/residential_model/ResidentialProperty.dart';
-import 'package:admin/server/residential/get/get_all_office.dart';
-import 'package:admin/server/residential/post/api_calls_mobile.dart';
-import 'package:admin/server/residential/post/api_calls_web.dart';
 import 'package:flutter/material.dart';
+import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../server/agricultural/get/get_all_agricaltural.dart';
+import '../../../server/agricultural/post/api_calls_mobile.dart';
+import '../../../server/agricultural/post/api_calls_web.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class AddResidentialDialog extends StatefulWidget {
-  final ValueNotifier<int> refreshPropertiesNotifier;
-
-  AddResidentialDialog({required this.refreshPropertiesNotifier});
-
+class AddCategoryDialog extends StatefulWidget {
   @override
-  _AddResidentialDialogState createState() => _AddResidentialDialogState();
+  _AddCategoryDialogState createState() => _AddCategoryDialogState();
 }
 
-class _AddResidentialDialogState extends State<AddResidentialDialog> {
-  late Future<List<ResidentialPropertyApi>> _propertiesFuture;
+class _AddCategoryDialogState extends State<AddCategoryDialog> {
+
+  late Future<List<CategoryApi>> _propertiesFuture;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _agentContactController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
+  TextEditingController _propertyTypeController = TextEditingController();
   TextEditingController _acresController = TextEditingController();
-  TextEditingController _bedroomsController = TextEditingController();
-  TextEditingController _bathroomsController = TextEditingController();
-  TextEditingController _amenitiesController = TextEditingController();
-  TextEditingController _parkingController = TextEditingController();
+  TextEditingController _buildingsController = TextEditingController();
+  TextEditingController _cropsController = TextEditingController();
+  TextEditingController _waterSourcesController = TextEditingController();
+  TextEditingController _soilTypeController = TextEditingController();
+  TextEditingController _equipmentController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
 
   List<dynamic> _images = [];
+
   List<dynamic> _videos = [];
 
   final FileUploader fileUploader =
@@ -41,7 +41,7 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllResidential();
+    _propertiesFuture = fetchAllAgricultural();
   }
 
   @override
@@ -54,9 +54,17 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextFormField(
-                initialValue: 'Residential',
-                enabled: false,
+                controller: _propertyTypeController,
                 decoration: InputDecoration(labelText: "Property Type"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a Property type';
+                  }
+                  if (value.length > 256) {
+                    return 'Crops description must be less than 256 characters';
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
@@ -75,8 +83,7 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration:
-                    InputDecoration(labelText: "Price", suffixText: 'LYD'),
+                decoration: InputDecoration(labelText: "Price"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a price';
@@ -91,8 +98,7 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
               ),
               TextFormField(
                 controller: _acresController,
-                decoration:
-                    InputDecoration(labelText: "Acres", suffixText: 'M²'),
+                decoration: InputDecoration(labelText: "Acres"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the number of acres';
@@ -106,66 +112,75 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
-                controller: _bedroomsController,
-                decoration:
-                InputDecoration(labelText: "Bedrooms"),
+                controller: _buildingsController,
+                decoration: InputDecoration(labelText: "Buildings"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter the number of bedrooms';
-                  }
-                  final int? acres = int.tryParse(value);
-                  if (acres == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _bathroomsController,
-                decoration:
-                InputDecoration(labelText: "Bathrooms"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Number of bathrooms.';
-                  }
-                  final int? acres = int.tryParse(value);
-                  if (acres == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _amenitiesController,
-                decoration: InputDecoration(labelText: "Amenities"),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Amenities description.';
+                    return 'Please enter valid Buildings';
                   }
                   if (value.length > 256) {
-                    return 'Amenities description must be less than 256 characters';
+                    return 'Crops description must be less than 256 characters';
                   }
                   return null;
                 },
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
-                controller: _parkingController,
-                decoration: InputDecoration(labelText: "Parking"),
+                controller: _cropsController,
+                decoration: InputDecoration(labelText: "Crops"),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter parking description.';
+                    return 'Please enter Crops.';
                   }
                   if (value.length > 256) {
-                    return 'parking description must be less than 256 characters';
+                    return 'Crops description must be less than 256 characters';
                   }
                   return null;
                 },
                 keyboardType: TextInputType.text,
               ),
               TextFormField(
+                controller: _waterSourcesController,
+                decoration: InputDecoration(labelText: "Water Sources"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter Water Sources.';
+                  }
+                  if (value.length > 256) {
+                    return 'Crops description must be less than 256 characters';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+              ),
+              TextFormField(
+                controller: _soilTypeController,
+                decoration: InputDecoration(labelText: "Soil Type"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter Soil Type.';
+                  }
+                  if (value.length > 256) {
+                    return 'Crops description must be less than 256 characters';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+              ),
+              TextFormField(
+                controller: _equipmentController,
+                decoration: InputDecoration(labelText: "Equipment"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter valid equipment.';
+                  }
+                  if (value.length > 256) {
+                    return 'Crops description must be less than 256 characters';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+              ),  TextFormField(
                 controller: _locationController,
                 decoration: InputDecoration(labelText: "Location"),
                 validator: (value) {
@@ -195,8 +210,7 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
                 spacing: 8,
                 children: _images.map((file) {
                   return Chip(
-                    label: Text(
-                        file is File ? file.path.split('/').last : file.name),
+                    label: Text(file is File ? file.path.split('/').last : file.name),
                     onDeleted: () {
                       setState(() {
                         _images.remove(file);
@@ -222,8 +236,7 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
                 spacing: 8,
                 children: _videos.map((file) {
                   return Chip(
-                    label: Text(
-                        file is File ? file.path.split('/').last : file.name),
+                    label: Text(file is File ? file.path.split('/').last : file.name),
                     onDeleted: () {
                       setState(() {
                         _videos.remove(file);
@@ -238,24 +251,24 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _showLoadingDialog(context);
-                    if (
+                    // Check if all fields are not empty
+                    if (_propertyTypeController.text.isEmpty ||
                         _agentContactController.text.isEmpty ||
                         _priceController.text.isEmpty ||
-                        _locationController.text.isEmpty ||
                         _acresController.text.isEmpty ||
-                        _parkingController.text.isEmpty ||
-                        _bathroomsController.text.isEmpty ||
-                        _amenitiesController.text.isEmpty ||
-                        _bedroomsController.text.isEmpty ||
+                        _buildingsController.text.isEmpty ||
+                        _cropsController.text.isEmpty ||
+                        _waterSourcesController.text.isEmpty ||
+                        _soilTypeController.text.isEmpty ||
+                        _equipmentController.text.isEmpty ||
+                        _locationController.text.isEmpty ||
                         _images.isEmpty ||
-                        _videos.isEmpty)
-                    {
+                        _videos.isEmpty) {
                       Navigator.of(context, rootNavigator: true).pop();
 
                       final snackBar = SnackBar(
                         content: Text(
-                            'Please fill in all fields and select at least 1 image and 1 video.'
-                        ),
+                            'Please fill in all fields and select at least 1 image and 1 video.'),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       return;
@@ -267,52 +280,24 @@ class _AddResidentialDialogState extends State<AddResidentialDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final property = ResidentialPropertyApi(
-                          propertyType: 'Residential',
-                          location: _locationController.text,
-                          agentContact: _agentContactController.text,
-                          price: int.tryParse(_priceController.text) ?? 0,
-                          acres: int.tryParse(_acresController.text) ?? 0,
-                          amenities: _amenitiesController.text,
-                          parking: _parkingController.text,
-                          bedrooms:int.tryParse(_bedroomsController.text) ?? 0,
-                          bathrooms:int.tryParse(_bathroomsController.text) ?? 0,
-                          images: _images,
-                          videos: _videos,
-                        );
-                        response =
-                            await uploadResidentialPropertyWeb(property);
+                        final property = CategoryApi(name: 'Majito', image: '');
+                        // response = await uploadAgriculturalPropertyWeb(property);
                       } else {
                         // Mobile-specific logic
-                        final property = ResidentialPropertyApi(
-                          propertyType: 'Residential',
-                          location: _locationController.text,
-                          agentContact: _agentContactController.text,
-                          price: int.tryParse(_priceController.text) ?? 0,
-                          acres: int.tryParse(_acresController.text) ?? 0,
-                          amenities: _amenitiesController.text,
-                          parking: _parkingController.text,
-                          bedrooms:int.tryParse(_bedroomsController.text) ?? 0,
-                          bathrooms:int.tryParse(_bathroomsController.text) ?? 0,
-                          images: _images,
-                          videos: _videos,
-                        );
-                        response =
-                            await uploadResidentialPropertyMobile(property);
+                        final property = CategoryApi(name: 'Majito', image: '');
+                        // response =
+                        //     await uploadAgriculturalPropertyMobile(property);
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllResidential();
+                          _propertiesFuture = fetchAllAgricultural();
                         });
-                        widget.refreshPropertiesNotifier.value++;
                       } else {
-                        var responseBody =
-                            await response.stream.bytesToString();
+                        var responseBody = await response.stream.bytesToString();
                         var decodedResponse = jsonDecode(responseBody);
-                        message = decodedResponse['message'] ??
-                            'Something went wrong. Please try again later.';
+                        message = decodedResponse['message'] ?? 'Something went wrong. Please try again later.';
                       }
                     } catch (e) {
                       print("Error uploading: $e");

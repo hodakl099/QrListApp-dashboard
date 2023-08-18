@@ -1,9 +1,9 @@
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
-import 'components/agricultural_properties.dart';
+import 'components/categories.dart';
 
-class AgriculturalScreen extends StatelessWidget {
+class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,7 @@ class AgriculturalScreen extends StatelessWidget {
                     flex: 5,
                     child: Column(
                       children: [
-                        AgriculturalProperties(),
+                        Categories(),
                         SizedBox(height: defaultPadding),
                         if (Responsive.isMobile(context))
                           SizedBox(height: defaultPadding),

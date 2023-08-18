@@ -6,11 +6,11 @@ import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../server/agricultural/delete/delete_agricultural_by_id.dart';
 
-class AgriculturalCard extends StatelessWidget {
-  final AgriculturalPropertyApi property;
+class CategoryCard extends StatelessWidget {
+  final CategoryApi property;
   final ValueNotifier<int>? refreshPropertiesNotifier;
 
-  const AgriculturalCard(
+  const CategoryCard(
       {Key? key,
       required this.property,
       required info,
@@ -37,16 +37,8 @@ class AgriculturalCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
-                child: Text(
-                  property.agentContact ?? '',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
                 InkWell(
                   onTap: () async {
-                  if (menuAppController.userPermissions.contains('Delete'))
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -86,23 +78,6 @@ class AgriculturalCard extends StatelessWidget {
                           ],
                         );
                       },
-                    );  else
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                           return AlertDialog(
-                            title: Text('Invalid credential'),
-                            content: Text('OPS!...you dont have the credentials to Delete Properties'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('Dismiss'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        }
                     );
                   },
                   child: Icon(Icons.delete, color: Colors.white54),
@@ -116,12 +91,12 @@ class AgriculturalCard extends StatelessWidget {
                 height: 100,
                 width: cardWidth - (2 * (16.0 + imagePadding)),
                 padding: imagePadding,
-                property: property,
+                category: property,
               ),
             ),
             desktop: Expanded(
               child: buildNetworkImage(
-                property: property,
+                category: property,
                 height: 150,
                 width: cardWidth - (2 * (16.0 + imagePadding)),
                 padding: imagePadding,
@@ -130,18 +105,11 @@ class AgriculturalCard extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Location",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(color: Colors.grey[600]),
-              ),
               Flexible(
                 child: Text(
-                  property.location ?? '',
+                  property.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
@@ -159,16 +127,16 @@ class AgriculturalCard extends StatelessWidget {
 }
 
 Widget buildNetworkImage(
-    {required AgriculturalPropertyApi property,
+    {required CategoryApi category,
     required double height,
     required double width,
     required double padding}) {
   String? imageUrl;
-  if (property.images.isNotEmpty) {
-    if (property.images[0] is String) {
-      imageUrl = property.images[0];
-    } else if (property.images[0] is Map) {
-      imageUrl = property.images[0]['url'];
+  if (category.image.isNotEmpty) {
+    if (category.image is String) {
+      imageUrl = category.image;
+    } else if (category.image is Map) {
+      imageUrl = category.image;
     }
   }
 

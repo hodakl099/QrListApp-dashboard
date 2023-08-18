@@ -1,15 +1,12 @@
 import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
-import 'package:admin/models/MyFiles.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../constants.dart';
 
-class PropertyListCard extends StatelessWidget {
-  final AgriculturalPropertyApi property;
+class CategoryCard extends StatelessWidget {
+  final CategoryApi property;
 
-  const PropertyListCard({
+  const CategoryCard({
     Key? key,
     required this.property, required info,
   }) : super(key: key);
@@ -36,7 +33,7 @@ class PropertyListCard extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  property.agentContact ?? '',
+                  property.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -75,7 +72,7 @@ class PropertyListCard extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  property.location ?? '',
+                  property.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
@@ -94,17 +91,17 @@ class PropertyListCard extends StatelessWidget {
 
 
 Widget buildNetworkImage({
-  required AgriculturalPropertyApi property,
+  required CategoryApi property,
   required double height,
   required double width,
   required double padding}) {
 
   String? imageUrl;
-  if (property.images.isNotEmpty) {
-    if (property.images[0] is String) {
-      imageUrl = property.images[0];
-    } else if (property.images[0] is Map) {
-      imageUrl = property.images[0]['url'];
+  if (property.image.isNotEmpty) {
+    if (property.image is String) {
+      imageUrl = property.image;
+    } else if (property.image is Map) {
+      imageUrl = property.image;
     }
   }
 

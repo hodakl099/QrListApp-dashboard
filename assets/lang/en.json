@@ -1,3 +1,11 @@
 {
-  "Mahmoud" : "Mahmoud"
+  "Mahmoud" : "Mahmoud",
+  "dashboard" : "Dashboard",
+  "Category" : "Category",
+  "Product" : "Products",
+  "Logout" : "Logout",
+  "Add New Category" : "Add New Category",
+  "There is no Categories available." : "There is no Categories available.",
+  "empty" : "No properties available",
+  "error": "internal server error."
 }

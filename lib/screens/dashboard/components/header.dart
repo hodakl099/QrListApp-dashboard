@@ -1,3 +1,4 @@
+import 'package:admin/components/applocal.dart';
 import 'package:admin/controllers/MenuAppController.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +26,11 @@ class Header extends StatelessWidget {
           ),
         if (!Responsive.isMobile(context))
           Text(
-            "Dashboard",
+            "${getLang(context, 'dashboard')}",
             style: Theme.of(context).textTheme.titleLarge,
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-        Expanded(child: SearchField()),
         ProfileCard(username: username,)
       ],
     );
@@ -60,15 +60,11 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/profile_pic.png",
-            height: 38,
-          ),
           if (!Responsive.isMobile(context))
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text(username),
+              child: Text(username,style: TextStyle(fontSize: 20),),
             ),
           if (!Responsive.isDesktop(context))
             Padding(

@@ -1,16 +1,16 @@
-import 'package:admin/models/office_model/CommercialProperty.dart';
-import 'package:admin/server/office/delete/delete_office_image_by_id.dart';
-import 'package:admin/server/office/delete/delete_office_video_by_id.dart';
-import 'package:admin/server/office/get/get_office_by_id.dart';
+import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import '../../../controllers/MenuAppController.dart';
-import 'edit_office_form.dart';
+import '../../../server/agricultural/delete/delete_agricultural_image_by_id.dart';
+import '../../../server/agricultural/delete/delete_agricultural_video_by_id.dart';
+import '../../../server/agricultural/get/get_agricultural_by_id.dart';
+import 'edit_category_form.dart';
 
-class OfficeDetailDialog extends StatelessWidget {
+class CategoryDetailDialog extends StatelessWidget {
   final String propertyId;
   final ValueNotifier<int> refreshPropertiesNotifier;
 
@@ -18,34 +18,27 @@ class OfficeDetailDialog extends StatelessWidget {
   static const String acresSuffix = "M²";
   static const String priceSuffix = "LYD";
 
-  OfficeDetailDialog(
+  CategoryDetailDialog(
       {required this.propertyId, required this.refreshPropertiesNotifier});
 
   @override
   Widget build(BuildContext context) {
+
+
     return ValueListenableBuilder(
       valueListenable: refreshPropertiesNotifier,
       builder: (BuildContext context, int value, Widget? child) {
         return Dialog(
-          child: FutureBuilder<OfficePropertyApi>(
-            future: fetchOfficeById(propertyId),
+          child: FutureBuilder<CategoryApi>(
+            future: fetchAgriculturalById(propertyId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                OfficePropertyApi property = snapshot.data!;
+                CategoryApi property = snapshot.data!;
                 List<String> imageUrls = [];
                 List<VideoPlayerController> videoControllers = [];
-
                 MenuAppController menuAppController =
                     context.read<MenuAppController>();
 
-                for (var image in property.images) {
-                  imageUrls.add(image['url']);
-                }
-
-                for (var video in property.videos) {
-                  videoControllers
-                      .add(VideoPlayerController.network(video['url']));
-                }
 
                 return SingleChildScrollView(
                   child: Column(
@@ -71,7 +64,7 @@ class OfficeDetailDialog extends StatelessWidget {
                                   if (menuAppController.userPermissions
                                       .contains('Edit'))
                                     return Dialog(
-                                      child: EditOfficeForm(
+                                      child: EditAgriculturalForm(
                                         property: property,
                                         refreshPropertiesNotifier:
                                             refreshPropertiesNotifier,
@@ -112,8 +105,8 @@ class OfficeDetailDialog extends StatelessWidget {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
-                                        if(menuAppController.userPermissions.contains('Delete'))
-                                        return AlertDialog(
+                                          if(menuAppController.userPermissions.contains('Delete'))
+                                            return  AlertDialog(
                                           title: Text('Confirm Deletion'),
                                           content: Text(
                                               'Are you sure you want to delete this Image?'),
@@ -132,13 +125,10 @@ class OfficeDetailDialog extends StatelessWidget {
                                                     .pop();
                                                 _showDeletingImageDialog(
                                                     context);
-                                                String imageId = property
-                                                    .images[index]['imageId']
-                                                    .toString();
+                                                String imageId = property.image;
                                                 bool isDeleted =
-                                                    await deleteOfficeImageById(
+                                                    await deleteAgriculturalImageById(
                                                         propertyId, imageId);
-                                                Navigator.of(context).pop();
                                                 if (isDeleted) {
                                                   final snackBar = SnackBar(
                                                       content: Text(
@@ -147,6 +137,7 @@ class OfficeDetailDialog extends StatelessWidget {
                                                       .showSnackBar(snackBar);
                                                   refreshPropertiesNotifier
                                                       .value++;
+                                                  Navigator.of(context).pop();
                                                 } else {
                                                   final snackBar = SnackBar(
                                                       content: Text(
@@ -157,7 +148,7 @@ class OfficeDetailDialog extends StatelessWidget {
                                               },
                                             ),
                                           ],
-                                        );  else {
+                                        ); else {
                                           return AlertDialog(
                                             title: Text('Invalid credential'),
                                             content: Text('OPS!...you dont have the credentials to Delete Images'),
@@ -170,7 +161,7 @@ class OfficeDetailDialog extends StatelessWidget {
                                               ),
                                             ],
                                           );
-                                        }
+                                          }
                                       },
                                     );
                                   },
@@ -228,11 +219,11 @@ class OfficeDetailDialog extends StatelessWidget {
                                           context: context,
                                           builder:
                                               (BuildContext dialogContext) {
-                                            if(menuAppController.userPermissions.contains('Delete'))
+                                           if(menuAppController.userPermissions.contains('Delete'))
                                             return AlertDialog(
                                               title: Text('Confirm Deletion'),
                                               content: Text(
-                                                  'Are you sure you want to delete this Video?'),
+                                                  'Are you sure you want to delete this Image?'),
                                               actions: <Widget>[
                                                 TextButton(
                                                   child: Text('Cancel'),
@@ -241,61 +232,21 @@ class OfficeDetailDialog extends StatelessWidget {
                                                         .pop();
                                                   },
                                                 ),
-                                                TextButton(
-                                                  child: Text('Delete'),
-                                                  onPressed: () async {
-                                                    Navigator.of(dialogContext)
-                                                        .pop();
-                                                    _showDeletingVideoDialog(
-                                                        context);
-                                                    int index = videoControllers
-                                                        .indexOf(controller);
-                                                    String videoId = property
-                                                        .videos[index]
-                                                            ['videoId']
-                                                        .toString();
-                                                    bool isDeleted =
-                                                        await deleteOfficeVideoById(
-                                                            propertyId,
-                                                            videoId);
-                                                    if (isDeleted) {
-                                                      final snackBar = SnackBar(
-                                                          content: Text(
-                                                              'Video Deleted Successfully'));
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              snackBar);
-                                                      refreshPropertiesNotifier
-                                                          .value++;
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    } else {
-                                                      final snackBar = SnackBar(
-                                                          content: Text(
-                                                              'Failed to delete the video.'));
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              snackBar);
-                                                    }
-                                                  },
-                                                ),
                                               ],
-                                            );else {
-                                              return AlertDialog(
-                                                title: Text('Invalid credential'),
-                                                content: Text('OPS!...you dont have the credentials to Delete Videos'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    child: Text('Dismiss'),
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            }
+                                            ); else {
+                                            return AlertDialog(
+                                               title: Text('Invalid credential'),
+                                               content: Text('OPS!...you dont have the credentials to Delete Videos'),
+                                               actions: <Widget>[
+                                                 TextButton(
+                                                   child: Text('Dismiss'),
+                                                   onPressed: () {
+                                                     Navigator.of(context).pop();
+                                                   },
+                                                 ),
+                                               ],
+                                             );
+                                           }
                                           },
                                         );
                                       },
@@ -313,47 +264,13 @@ class OfficeDetailDialog extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Agent Contact: ${property.agentContact}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Property Type: ${property.propertyType}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Property Type: ${property.layoutType}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Location: ${property.location}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            'Acres: ${property.acres}${OfficeDetailDialog.acresSuffix}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            'Price: ${property.price}${OfficeDetailDialog.priceSuffix}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Floor number: ${property.floorNumber}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Amenities: ${property.amenities}'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Accessibility: ${property.accessibility}'),
+                        child: Text('Category name: ${property.name}'),
                       ),
                     ],
                   ),
                 );
               } else if (snapshot.hasError) {
-                return Text("Failed to load property. Please try again later.");
+                return Text("Failed to load Category. Please try again later.");
               }
               return Container(
                 width: 200,

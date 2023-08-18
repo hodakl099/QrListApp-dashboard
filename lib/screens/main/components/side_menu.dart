@@ -1,5 +1,6 @@
 import 'package:admin/components/applocal.dart';
 import 'package:admin/screens/login/login_screen.dart';
+import 'package:admin/screens/subcategories/subcategories_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,7 +43,7 @@ class SideMenu extends StatelessWidget {
             press: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => CategoriesScreen(),
+                  builder: (context) => SubCategoriesScreen(),
                 ),
               );
             },

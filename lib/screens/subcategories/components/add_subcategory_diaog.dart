@@ -3,22 +3,22 @@ import 'dart:convert';
 import 'package:admin/components/applocal.dart';
 import 'package:flutter/material.dart';
 import '../../../models/agricultural_model/AgriculturalProperty.dart';
-import '../../../server/agricultural/get/get_all_agricaltural.dart';
+import '../../../server/categories/get/get_all_agricaltural.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class AddCategoryDialog extends StatefulWidget {
+class AddSubCategoryDialog extends StatefulWidget {
   final ValueNotifier<int> refreshCategoriesNotifier;
 
-  AddCategoryDialog({required this.refreshCategoriesNotifier});
+  AddSubCategoryDialog({required this.refreshCategoriesNotifier});
 
   @override
-  _AddCategoryDialogState createState() => _AddCategoryDialogState();
+  _AddSubCategoryDialogState createState() => _AddSubCategoryDialogState();
 }
 
-class _AddCategoryDialogState extends State<AddCategoryDialog> {
+class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
   late Future<List<CategoryApi>> _propertiesFuture;
 
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllAgricultural();
+    _propertiesFuture = fetchAllCategories();
   }
 
   @override
@@ -120,7 +120,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllAgricultural();
+                          _propertiesFuture = fetchAllCategories();
                         });
                         widget.refreshCategoriesNotifier.value++;
                       } else {

@@ -6,11 +6,11 @@ import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../server/agricultural/delete/delete_category_by_id.dart';
 
-class CategoryCard extends StatelessWidget {
+class SubCategoryCard extends StatelessWidget {
   final CategoryApi property;
   final ValueNotifier<int>? refreshPropertiesNotifier;
 
-  const CategoryCard(
+  const SubCategoryCard(
       {Key? key,
       required this.property,
       required info,

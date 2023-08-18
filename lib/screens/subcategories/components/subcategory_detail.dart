@@ -8,9 +8,9 @@ import '../../../controllers/MenuAppController.dart';
 import '../../../server/agricultural/delete/delete_category_image_by_id.dart';
 import '../../../server/agricultural/delete/delete_agricultural_video_by_id.dart';
 import '../../../server/agricultural/get/get_category_by_id.dart';
-import 'edit_category_form.dart';
+import 'edit_subcategory_form.dart';
 
-class CategoryDetailDialog extends StatelessWidget {
+class SubCategoryDetailDialog extends StatelessWidget {
   final String propertyId;
   final ValueNotifier<int> refreshPropertiesNotifier;
 
@@ -18,7 +18,7 @@ class CategoryDetailDialog extends StatelessWidget {
   static const String acresSuffix = "M²";
   static const String priceSuffix = "LYD";
 
-  CategoryDetailDialog(
+  SubCategoryDetailDialog(
       {required this.propertyId, required this.refreshPropertiesNotifier});
 
   @override
@@ -64,7 +64,7 @@ class CategoryDetailDialog extends StatelessWidget {
                                   if (menuAppController.userPermissions
                                       .contains('Edit'))
                                     return Dialog(
-                                      child: EditAgriculturalForm(
+                                      child: EditSubCategoryForm(
                                         property: property,
                                         refreshPropertiesNotifier:
                                             refreshPropertiesNotifier,

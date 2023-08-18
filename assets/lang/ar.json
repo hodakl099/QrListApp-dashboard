@@ -7,5 +7,8 @@
   "Add New Category" : "اضف قسم",
   "There is no Categories available." : "اضف قسم",
   "empty" : "لايوجد عناصر",
-  "error": "مشكلة من الخادم"
+  "error": "مشكلة من الخادم",
+  "name": "الاسم",
+  "Please enter a Category name": "قم باادخال اسم للقسم",
+  "image": "قم بااختيار ملف"
 }

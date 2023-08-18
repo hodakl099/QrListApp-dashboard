@@ -1,7 +1,7 @@
 class CategoryApi {
   final String? id;
   final String name;
-  final String image;
+  final dynamic image;
 
 
   CategoryApi

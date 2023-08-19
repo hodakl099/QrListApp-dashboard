@@ -116,7 +116,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
   @override
   void initState() {
     super.initState();
-    properties = fetchAllAgricultural();
+    properties = fetchAllCategories();
   }
 
 

@@ -1,10 +1,7 @@
-import 'package:admin/responsive.dart';
+import 'package:admin/server/categories/get/get_all_agricaltural.dart';
 import 'package:flutter/material.dart';
 import '../../../constants.dart';
-import '../../../controllers/MenuAppController.dart';
 import '../../../models/agricultural_model/AgriculturalProperty.dart';
-import '../../../server/agricultural/get/get_all_agricaltural.dart';
-import 'add_category_diaog.dart';
 import 'category_card.dart';
 
 class Categories extends StatefulWidget {
@@ -20,7 +17,7 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllAgricultural();
+    _propertiesFuture = fetchAllCategories();
   }
 
 
@@ -47,7 +44,7 @@ class _PropertyListPageState extends State<PropertyListPage> {
   @override
   void initState() {
     super.initState();
-    properties = fetchAllAgricultural();
+    properties = fetchAllCategories();
   }
 
 

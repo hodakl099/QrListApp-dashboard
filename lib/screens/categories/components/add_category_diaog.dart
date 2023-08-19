@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:admin/components/applocal.dart';
+import 'package:admin/server/categories/get/get_all_agricaltural.dart';
 import 'package:flutter/material.dart';
 import '../../../models/agricultural_model/AgriculturalProperty.dart';
-import '../../../server/agricultural/get/get_all_agricaltural.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
@@ -32,7 +32,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllAgricultural();
+    _propertiesFuture = fetchAllCategories();
   }
 
   @override
@@ -120,7 +120,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllAgricultural();
+                          _propertiesFuture = fetchAllCategories();
                         });
                         widget.refreshCategoriesNotifier.value++;
                       } else {

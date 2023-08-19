@@ -1,11 +1,11 @@
 import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
+import 'package:admin/server/categories/get/get_all_agricaltural.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../models/agricultural_model/AgriculturalProperty.dart';
-import '../../../server/agricultural/get/get_all_agricaltural.dart';
 import 'add_category_diaog.dart';
 import 'category_card.dart';
 import 'category_detail.dart';
@@ -22,7 +22,7 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllAgricultural();
+    _propertiesFuture = fetchAllCategories();
   }
 
 
@@ -116,7 +116,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
   @override
   void initState() {
     super.initState();
-    properties = fetchAllAgricultural();
+    properties = fetchAllCategories();
   }
 
 

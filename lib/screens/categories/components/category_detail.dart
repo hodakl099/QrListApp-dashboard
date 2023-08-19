@@ -1,13 +1,12 @@
 import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
+import 'package:admin/server/categories/delete/delete_category_by_id.dart';
+import 'package:admin/server/categories/get/get_category_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import '../../../controllers/MenuAppController.dart';
-import '../../../server/agricultural/delete/delete_category_image_by_id.dart';
-import '../../../server/agricultural/delete/delete_agricultural_video_by_id.dart';
-import '../../../server/agricultural/get/get_category_by_id.dart';
 import 'edit_category_form.dart';
 
 class CategoryDetailDialog extends StatelessWidget {
@@ -30,7 +29,7 @@ class CategoryDetailDialog extends StatelessWidget {
       builder: (BuildContext context, int value, Widget? child) {
         return Dialog(
           child: FutureBuilder<CategoryApi>(
-            future: fetchAgriculturalById(propertyId),
+            future: fetchCategoryById(propertyId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 CategoryApi property = snapshot.data!;
@@ -127,8 +126,8 @@ class CategoryDetailDialog extends StatelessWidget {
                                                     context);
                                                 String imageId = property.image;
                                                 bool isDeleted =
-                                                    await deleteAgriculturalImageById(
-                                                        propertyId, imageId);
+                                                    await deleteCategoryById(
+                                                        propertyId);
                                                 if (isDeleted) {
                                                   final snackBar = SnackBar(
                                                       content: Text(

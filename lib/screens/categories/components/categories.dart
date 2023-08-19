@@ -1,11 +1,11 @@
 import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/server/categories/get/get_all_agricaltural.dart';
+import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
-import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../models/category_model/Category.dart';
 import 'add_category_diaog.dart';
 import 'category_card.dart';
 import 'category_detail.dart';
@@ -66,7 +66,7 @@ class _CategoriesState extends State<Categories> {
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
             return FutureBuilder<List<CategoryApi>>(
-              future: Future.value(getDummyProperties()),
+              future: _propertiesFuture,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Responsive(
@@ -84,6 +84,7 @@ class _CategoriesState extends State<Categories> {
                     ),
                   );
                 } else if (snapshot.hasError) {
+                  print("${snapshot.error}");
                   return Text("${getLang(context, 'empty')}");
                 }
                 return CircularProgressIndicator();
@@ -128,7 +129,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
           builder: (context, value, child) {
           print(value);
             return FutureBuilder<List<CategoryApi>>(
-              future: Future.value(getDummyProperties()),
+              future:properties,
               builder: (context, snapshot) {
                 if(snapshot.data!.isEmpty) {
                   return Center(child: Text("${getLang(context, 'error')}"));
@@ -192,7 +193,7 @@ class FileInfoCardGridView extends StatelessWidget {
             if (propertyId != null) {
               showDialog(
                 context: context,
-                builder: (context) => CategoryDetailDialog(propertyId: propertyId, refreshPropertiesNotifier :refreshPropertiesNotifier),
+                builder: (context) => CategoryDetailDialog(propertyId: propertyId.toString(), refreshPropertiesNotifier :refreshPropertiesNotifier),
               );
             } else {
               print("Category ID is null");

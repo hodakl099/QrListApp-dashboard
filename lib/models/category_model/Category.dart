@@ -1,5 +1,5 @@
 class CategoryApi {
-  final String? id;
+  final int? id;
   final String name;
   final dynamic image;
 
@@ -14,7 +14,7 @@ class CategoryApi {
   CategoryApi.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-       image = json['image'];
+        image = json['image'];
 
   Map<String, dynamic> toMap() {
     return {

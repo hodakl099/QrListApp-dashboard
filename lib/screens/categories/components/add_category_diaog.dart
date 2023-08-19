@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:admin/components/applocal.dart';
-import 'package:admin/server/categories/get/get_all_agricaltural.dart';
+import 'package:admin/server/categories/get/get_all_categories.dart';
+import 'package:admin/server/categories/post/api_calls_mobile.dart';
 import 'package:flutter/material.dart';
-import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../models/category_model/Category.dart';
+import '../../../server/categories/post/api_calls_web.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
@@ -19,7 +21,7 @@ class AddCategoryDialog extends StatefulWidget {
 }
 
 class _AddCategoryDialogState extends State<AddCategoryDialog> {
-  late Future<List<CategoryApi>> _propertiesFuture;
+  late Future<List<CategoryApi>> categoriesFuture;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
@@ -32,7 +34,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllCategories();
+    categoriesFuture = fetchAllCategories();
   }
 
   @override
@@ -107,21 +109,22 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final property = CategoryApi(name: '', image: '');
-                        // response =
-                        //     await uploadAgriculturalPropertyWeb(property);
+                        final property = CategoryApi(name: _nameController.text, image: _image);
+                        response =
+                            await uploadCategoryPropertyWeb(property);
                       } else {
                         // Mobile-specific logic
-                        final property = CategoryApi(name: '', image: '');
-                        // response =
-                        //     await uploadAgriculturalPropertyMobile(property);
+                        final category = CategoryApi(name: _nameController.text, image: _image);
+                        response =
+                            await uploadCategoryMobile(category);
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllCategories();
+                          categoriesFuture = fetchAllCategories();
                         });
+                        Navigator.of(context,rootNavigator: true).pop();
                         widget.refreshCategoriesNotifier.value++;
                       } else {
                         var responseBody =

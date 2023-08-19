@@ -1,11 +1,11 @@
 import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/server/categories/get/get_all_agricaltural.dart';
+import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
-import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../models/category_model/Category.dart';
 import 'add_subcategory_diaog.dart';
 import 'subcategory_card.dart';
 import 'subcategory_detail.dart';
@@ -192,7 +192,7 @@ class FileInfoCardGridView extends StatelessWidget {
             if (propertyId != null) {
               showDialog(
                 context: context,
-                builder: (context) => SubCategoryDetailDialog(propertyId: propertyId, refreshPropertiesNotifier :refreshPropertiesNotifier),
+                builder: (context) => SubCategoryDetailDialog(propertyId: propertyId.toString(), refreshPropertiesNotifier :refreshPropertiesNotifier),
               );
             } else {
               print("Category ID is null");

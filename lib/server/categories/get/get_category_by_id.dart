@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../models/category_model/Category.dart';
 
 
 

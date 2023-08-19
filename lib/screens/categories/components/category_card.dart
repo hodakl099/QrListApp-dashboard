@@ -1,10 +1,10 @@
-import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/server/categories/delete/delete_category_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
+import '../../../models/category_model/Category.dart';
 
 
 class CategoryCard extends StatelessWidget {
@@ -59,7 +59,7 @@ class CategoryCard extends StatelessWidget {
                               onPressed: () async {
                                 Navigator.of(context).pop();
                                 bool isDeleted =
-                                    await deleteCategoryById(property.id!);
+                                    await deleteCategoryById(property.id!.toString());
                                 if (isDeleted) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

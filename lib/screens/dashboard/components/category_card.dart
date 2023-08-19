@@ -1,7 +1,7 @@
-import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
 import '../../../constants.dart';
+import '../../../models/category_model/Category.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryApi property;

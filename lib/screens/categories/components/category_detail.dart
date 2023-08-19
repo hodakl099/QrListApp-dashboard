@@ -1,4 +1,3 @@
-import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
 import 'package:admin/server/categories/delete/delete_category_by_id.dart';
 import 'package:admin/server/categories/get/get_category_by_id.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import '../../../controllers/MenuAppController.dart';
+import '../../../models/category_model/Category.dart';
 import 'edit_category_form.dart';
 
 class CategoryDetailDialog extends StatelessWidget {

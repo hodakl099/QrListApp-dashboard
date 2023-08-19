@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../models/category_model/Category.dart';
 
 
 
 Future<List<CategoryApi>> fetchAllCategories() async {
-  final response = await http.get(Uri.parse('http://localhost:8080/properties/agricultural/properties'));
+  final response = await http.get(Uri.parse('http://localhost:8080/QrList/category/getAllCategories'));
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);

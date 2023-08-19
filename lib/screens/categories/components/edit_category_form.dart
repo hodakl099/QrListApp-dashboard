@@ -2,7 +2,7 @@ import 'dart:html';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../../../models/agricultural_model/AgriculturalProperty.dart';
+import '../../../models/category_model/Category.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';

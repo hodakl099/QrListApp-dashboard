@@ -1,18 +1,20 @@
 import 'dart:convert';
 import 'dart:html' as html;
-import 'package:admin/models/agricultural_model/AgriculturalProperty.dart';
+import 'dart:js_interop';
+
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import '../../../models/category_model/Category.dart';
+
 
 Future<http.StreamedResponse> uploadCategoryPropertyWeb(CategoryApi category) async {
-  var uri = Uri.parse("http://localhost:8080/properties/agricultural/Add");
+  var uri = Uri.parse("http://localhost:8080/QrList/category/AddCategory");
   var request = http.MultipartRequest("POST", uri)
     ..fields['name'] = category.name;
 
-  var imageFile = category.image;
-
-  if (imageFile is html.File) {
+  if (category.image != null) {
+    var imageFile = category.image;
     final reader = html.FileReader();
     reader.readAsArrayBuffer(imageFile);
     await reader.onLoad.first;

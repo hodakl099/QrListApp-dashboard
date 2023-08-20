@@ -4,7 +4,7 @@ import 'package:http_parser/http_parser.dart';
 
 import '../../../models/category_model/Category.dart';
 
-Future<http.StreamedResponse> updateAgriculturalPropertyMobile(String id, CategoryApi category) async {
+Future<http.StreamedResponse> updateCategoryMobile(String id, CategoryApi category) async {
   var uri = Uri.parse("http://localhost:8080/properties/agricultural/updateProperty/$id");
   var request = http.MultipartRequest("PUT", uri)
     ..fields['name'] = category.name;

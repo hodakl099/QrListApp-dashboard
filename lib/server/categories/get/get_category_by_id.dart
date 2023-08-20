@@ -5,7 +5,7 @@ import '../../../models/category_model/Category.dart';
 
 
 Future<CategoryApi> fetchCategoryById(String id) async {
-  final response = await http.get(Uri.parse('http://localhost:8080/properties/agricultural/property/$id'));
+  final response = await http.get(Uri.parse('http://localhost:8080/QrList/category/getCategory/$id'));
 
 
   if (response.statusCode == 200) {

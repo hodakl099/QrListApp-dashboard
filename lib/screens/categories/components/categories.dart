@@ -65,6 +65,7 @@ class _CategoriesState extends State<Categories> {
         ValueListenableBuilder(
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
+            _propertiesFuture = fetchAllCategories();
             return FutureBuilder<List<CategoryApi>>(
               future: _propertiesFuture,
               builder: (context, snapshot) {
@@ -127,6 +128,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
       body: ValueListenableBuilder(
         valueListenable: _refreshPropertiesNotifier,
           builder: (context, value, child) {
+            properties = fetchAllCategories();
           print(value);
             return FutureBuilder<List<CategoryApi>>(
               future:properties,
@@ -139,7 +141,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return CategoryCard(
-                        property: snapshot.data![index], info: null, refreshPropertiesNotifier: _refreshPropertiesNotifier,);
+                        category: snapshot.data![index], info: null, refreshPropertiesNotifier: _refreshPropertiesNotifier,);
                     },
                   );
                 } else if (snapshot.hasError) {
@@ -199,18 +201,12 @@ class FileInfoCardGridView extends StatelessWidget {
               print("Category ID is null");
             }
           },
-          child: CategoryCard(property: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
+          child: CategoryCard(category: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
       ),
 
 
     );
   }
-}
-
-List<CategoryApi> getDummyProperties() {
-  return List.generate(10, (index) => CategoryApi(name: 'Mojito', image: ''
-
-  ));
 }
 
 

@@ -10,12 +10,12 @@ import '../../../models/category_model/Category.dart';
 
 
 class CategoryCard extends StatelessWidget {
-  final CategoryApi property;
+  final CategoryApi category;
   final ValueNotifier<int>? refreshPropertiesNotifier;
 
   const CategoryCard(
       {Key? key,
-      required this.property,
+      required this.category,
       required info,
       required this.refreshPropertiesNotifier})
       : super(key: key);
@@ -61,12 +61,11 @@ class CategoryCard extends StatelessWidget {
                               onPressed: () async {
                                 Navigator.of(context).pop();
                                 bool isDeleted =
-                                    await deleteCategoryById(property.id!.toString());
+                                    await deleteCategoryById(category.id!.toString());
                                 if (isDeleted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            '${getLang(context, 'Category deleted successfully')}')),
+                                  Fluttertoast.showToast(
+                                      toastLength: Toast.LENGTH_LONG,
+                                      msg: '${getLang(context, 'Category deleted successfully')}'
                                   );
                                   refreshPropertiesNotifier?.value++;
                                 } else {
@@ -94,12 +93,12 @@ class CategoryCard extends StatelessWidget {
                 height: 100,
                 width: cardWidth - (2 * (16.0 + imagePadding)),
                 padding: imagePadding,
-                category: property,
+                category: category,
               ),
             ),
             desktop: Expanded(
               child: buildNetworkImage(
-                category: property,
+                category: category,
                 height: 150,
                 width: cardWidth - (2 * (16.0 + imagePadding)),
                 padding: imagePadding,
@@ -112,7 +111,7 @@ class CategoryCard extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  property.name ?? '',
+                  category.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)

@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 Future<bool> deleteCategoryById(String id) async {
-  var url = 'http://localhost:8080/properties/agricultural/$id';
+  var url = 'http://localhost:8080/QrList/category/deleteCategory/$id';
 
   try {
     var response = await http.delete(Uri.parse(url));

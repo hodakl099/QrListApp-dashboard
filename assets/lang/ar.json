@@ -20,5 +20,10 @@
   "Cancel": "الغاء",
   "Delete": "حذف",
   "Category deleted successfully": "تم حذف العنصر",
-  "Failed to delete Category": "لم يتم حذف العنصر"
+  "Failed to delete Category": "لم يتم حذف العنصر",
+  "Category name": "اسم العنصر",
+  "failedToLoad": "فشل تحميل الفئة. الرجاء معاودة المحاولة في وقت لاحق.",
+  "imageDeletionConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
+  "imageDeletedSuccessfully": "تم حذف الصورة بنجاح",
+  "failedToDeleteImage": "فشل حذف الصورة"
 }

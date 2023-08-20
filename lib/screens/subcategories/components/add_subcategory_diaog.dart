@@ -24,7 +24,7 @@ class AddSubCategoryDialog extends StatefulWidget {
 }
 
 class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
-  late Future<List<SubCategory>> _propertiesFuture;
+  late Future<List<SubCategory>> _subCategories;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
@@ -37,7 +37,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = getSubCategoriesById('3');
+    _subCategories = getSubCategoriesById('2');
   }
 
   @override
@@ -96,7 +96,6 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                     _showLoadingDialog(context);
                     if (_nameController.text.isEmpty || _image == null) {
                       Navigator.of(context, rootNavigator: true).pop();
-
                       final snackBar = SnackBar(
                         content: Text(
                             '${getLang(context, 'image')}'),
@@ -114,18 +113,18 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                         // Web-specific logic
                         final subCategory = SubCategory(name: _nameController.text, image: _image);
                         response =
-                            await uploadSubCategoryWeb(subCategory,'3');
+                            await uploadSubCategoryWeb(subCategory,'2');
                       } else {
                         // Mobile-specific logic
                         final subCategory = SubCategory(name:_nameController.text, image: _image);
                         response =
-                            await uploadSubCategoryMobile(subCategory,'3');
+                            await uploadSubCategoryMobile(subCategory,'2');
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = getSubCategoriesById('3');
+                          _subCategories = getSubCategoriesById('2');
                         });
                         widget.refreshCategoriesNotifier.value++;
                       } else {

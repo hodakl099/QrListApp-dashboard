@@ -1,14 +1,15 @@
+import 'package:admin/models/sub_category/SubCategoryModel.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/server/categories/delete/delete_category_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
-import '../../../models/category_model/Category.dart';
+
 
 
 class SubCategoryCard extends StatelessWidget {
-  final CategoryApi property;
+  final SubCategory property;
   final ValueNotifier<int>? refreshPropertiesNotifier;
 
   const SubCategoryCard(
@@ -127,19 +128,13 @@ class SubCategoryCard extends StatelessWidget {
   }
 }
 
-Widget buildNetworkImage(
-    {required CategoryApi category,
-    required double height,
-    required double width,
-    required double padding}) {
-  String? imageUrl;
-  if (category.image.isNotEmpty) {
-    if (category.image is String) {
-      imageUrl = category.image;
-    } else if (category.image is Map) {
-      imageUrl = category.image;
-    }
-  }
+Widget buildNetworkImage({
+  required SubCategory category,
+  required double height,
+  required double width,
+  required double padding
+}) {
+  String? imageUrl = category.image;  // Directly get the imageUrl field
 
   return Container(
     padding: EdgeInsets.all(padding),
@@ -152,20 +147,17 @@ Widget buildNetworkImage(
     child: Image.network(
       imageUrl ?? '',
       fit: BoxFit.cover,
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent? loadingProgress) {
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) return child;
         return Center(
           child: CircularProgressIndicator(
             value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    (loadingProgress.expectedTotalBytes ?? 1)
+                ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
                 : null,
           ),
         );
       },
-      errorBuilder:
-          (BuildContext context, Object error, StackTrace? stackTrace) {
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
         return Image.asset('assets/images/tajakar.png', fit: BoxFit.cover);
       },
     ),

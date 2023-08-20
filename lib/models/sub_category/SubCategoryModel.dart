@@ -1,7 +1,7 @@
 
 
 class SubCategory {
-  final int? id;
+  final String? id;
   final String name;
   final dynamic image;
   final String? categoryId;
@@ -11,10 +11,10 @@ class SubCategory {
 
   factory SubCategory.fromJson(Map<String,dynamic> json) {
     return SubCategory(
-        id: json['id'],
+        id: json['id'].toString(),
         name: json['name'],
         image: json['image'],
-        categoryId: json['categoryId']
+        categoryId: json['categoryId'].toString()
     );
   }
   Map<String, dynamic> toJson() {

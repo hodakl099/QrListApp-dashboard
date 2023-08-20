@@ -6,7 +6,7 @@ import '../../../models/category_model/Category.dart';
 
 
 Future<List<SubCategory>> getSubCategoriesById(String categoryId) async {
-  final response = await http.get(Uri.parse('http://localhost:8080/QrList/category/getSubCategories/{$categoryId}'));
+  final response = await http.get(Uri.parse('http://localhost:8080/QrList/category/getSubCategories/$categoryId'));
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);

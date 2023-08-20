@@ -1,11 +1,11 @@
 import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/server/categories/get/get_all_categories.dart';
+import 'package:admin/server/sub_categories/get/get_subcategries_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
-import '../../../models/category_model/Category.dart';
+import '../../../models/sub_category/SubCategoryModel.dart';
 import 'add_subcategory_diaog.dart';
 import 'subcategory_card.dart';
 import 'subcategory_detail.dart';
@@ -17,12 +17,12 @@ class SubCategories extends StatefulWidget {
 
 class _SubCategoriesState extends State<SubCategories> {
   final ValueNotifier<int> _refreshCategoriesNotifier = ValueNotifier<int>(0);
-  Future<List<CategoryApi>>? _propertiesFuture;
+  Future<List<SubCategory>>? _subCategories;
 
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllCategories();
+    _subCategories = getSubCategoriesById('2');
   }
 
 
@@ -65,8 +65,8 @@ class _SubCategoriesState extends State<SubCategories> {
         ValueListenableBuilder(
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
-            return FutureBuilder<List<CategoryApi>>(
-              future: Future.value(getDummyProperties()),
+            return FutureBuilder<List<SubCategory>>(
+              future: _subCategories,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Responsive(
@@ -84,6 +84,7 @@ class _SubCategoriesState extends State<SubCategories> {
                     ),
                   );
                 } else if (snapshot.hasError) {
+                  print(snapshot.error);
                   return Text("${getLang(context, 'empty')}");
                 }
                 return CircularProgressIndicator();
@@ -110,13 +111,13 @@ class CategoryListPage extends StatefulWidget {
 }
 
 class _CategoryListPageState extends State<CategoryListPage> {
-  late Future<List<CategoryApi>> properties;
+  late Future<List<SubCategory>> subcategories;
   final ValueNotifier<int> _refreshPropertiesNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
     super.initState();
-    properties = fetchAllCategories();
+    subcategories = getSubCategoriesById('2');
   }
 
 
@@ -126,9 +127,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
       body: ValueListenableBuilder(
         valueListenable: _refreshPropertiesNotifier,
           builder: (context, value, child) {
-          print(value);
-            return FutureBuilder<List<CategoryApi>>(
-              future: Future.value(getDummyProperties()),
+            return FutureBuilder<List<SubCategory>>(
+              future: subcategories,
               builder: (context, snapshot) {
                 if(snapshot.data!.isEmpty) {
                   return Center(child: Text("${getLang(context, 'error')}"));
@@ -160,7 +160,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
 }
 
 class FileInfoCardGridView extends StatelessWidget {
-  final List<CategoryApi> properties;
+  final List<SubCategory> properties;
   final int crossAxisCount;
   final double childAspectRatio;
   final ValueNotifier<int> refreshPropertiesNotifier;
@@ -200,16 +200,7 @@ class FileInfoCardGridView extends StatelessWidget {
           },
           child: SubCategoryCard(property: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
       ),
-
-
     );
   }
 }
-
-List<CategoryApi> getDummyProperties() {
-  return List.generate(10, (index) => CategoryApi(name: 'Mojito', image: ''
-
-  ));
-}
-
 

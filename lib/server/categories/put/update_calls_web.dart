@@ -6,7 +6,7 @@ import '../../../models/category_model/Category.dart';
 
 Future<http.StreamedResponse> updateCategoryWeb(String id, CategoryApi category) async {
   var uri = Uri.parse("http://localhost:8080/QrList/category/updateCategory/$id");
-  var request = http.MultipartRequest("POST", uri)
+  var request = http.MultipartRequest("PUT", uri)
     ..fields['name'] = category.name;
   var imageFile = category.image;
 

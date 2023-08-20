@@ -25,5 +25,6 @@
   "failedToLoad": "فشل تحميل الفئة. الرجاء معاودة المحاولة في وقت لاحق.",
   "imageDeletionConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
   "imageDeletedSuccessfully": "تم حذف الصورة بنجاح",
-  "failedToDeleteImage": "فشل حذف الصورة"
+  "failedToDeleteImage": "فشل حذف الصورة",
+  "Edit Category": "تعديل العنصر"
 }

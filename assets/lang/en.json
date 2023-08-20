@@ -25,5 +25,6 @@
   "failedToLoad": "Failed to load Category. Please try again later.",
   "imageDeletionConfirm": "Are you sure you want to delete this Image?",
   "imageDeletedSuccessfully": "Image Deleted Successfully",
-  "failedToDeleteImage": "Failed to delete the image"
+  "failedToDeleteImage": "Failed to delete the image",
+  "Edit Category": "Edit Category"
 }

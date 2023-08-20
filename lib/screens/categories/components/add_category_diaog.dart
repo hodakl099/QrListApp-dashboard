@@ -4,6 +4,7 @@ import 'package:admin/components/applocal.dart';
 import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:admin/server/categories/post/api_calls_mobile.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../models/category_model/Category.dart';
 import '../../../server/categories/post/api_calls_web.dart';
 import '../../../util/file_uploader.dart';
@@ -67,7 +68,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                     });
                   }
                 },
-                child: Text("Select Image"), // Label changed to "Select Image"
+                child: Text("${getLang(context,'Select Image')}"),
               ),
               Wrap(
                 spacing: 8,
@@ -118,13 +119,13 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         response =
                             await uploadCategoryMobile(category);
                       }
-                      if (response.statusCode == 200) {
+                      if (response.statusCode == 201) {
                         isSuccess = true;
-                        message = 'Upload successful!';
+                        message = '${getLang(context, 'successMessage')}';
                         setState(() {
                           categoriesFuture = fetchAllCategories();
                         });
-                        Navigator.of(context,rootNavigator: true).pop();
+                        Navigator.of(context).pop();
                         widget.refreshCategoriesNotifier.value++;
                       } else {
                         var responseBody =
@@ -139,14 +140,13 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                       Navigator.of(context, rootNavigator: true).pop();
                     }
 
-                    final snackBar = SnackBar(content: Text(message));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Fluttertoast.showToast(msg: message,toastLength:Toast.LENGTH_LONG);
                     if (isSuccess) {
                       Navigator.of(context).pop();
                     }
                   }
                 },
-                child: Text("Submit"),
+                child: Text("${getLang(context, 'Submit')}"),
               ),
             ],
           ),
@@ -166,7 +166,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
             children: [
               CircularProgressIndicator(),
               SizedBox(width: 20),
-              Text("Uploading..."),
+              Text("${getLang(context, 'uploading')}"),
             ],
           ),
         );

@@ -1,6 +1,8 @@
+import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/server/categories/delete/delete_category_by_id.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
@@ -44,18 +46,18 @@ class CategoryCard extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Confirm Deletion'),
+                          title: Text('${getLang(context, 'Confirm Deletion')}'),
                           content: Text(
-                              'Are you sure you want to delete this property?'),
+                              '${getLang(context, 'deleteForever')}'),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('Cancel'),
+                              child: Text('${getLang(context, 'Cancel')}'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                             TextButton(
-                              child: Text('Delete'),
+                              child: Text('${getLang(context, 'Delete')}'),
                               onPressed: () async {
                                 Navigator.of(context).pop();
                                 bool isDeleted =
@@ -64,15 +66,15 @@ class CategoryCard extends StatelessWidget {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                         content: Text(
-                                            'Property deleted successfully')),
+                                            '${getLang(context, 'Category deleted successfully')}')),
                                   );
                                   refreshPropertiesNotifier?.value++;
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('Failed to delete property')),
+                                  Fluttertoast.showToast(
+                                    toastLength: Toast.LENGTH_LONG,
+                                      msg: '${getLang(context, 'Failed to delete Category')}'
                                   );
+
                                 }
                               },
                             ),

@@ -10,5 +10,15 @@
   "error": "internal server error.",
   "name": "Name",
   "Please enter a Category name": "Please enter a Category name",
-  "image": "Please select an image"
+  "image": "Please select an image",
+  "successMessage": "Category is Added successfully.",
+  "Select Image": "Select Image",
+  "uploading": "Uploading...",
+  "Submit": "Submit",
+  "Confirm Deletion": "Confirm Deletion",
+  "deleteForever": "Are you sure you want to delete this category?",
+  "Cancel": "Cancel",
+  "Delete": "Delete",
+  "Category deleted successfully": "Category deleted successfully",
+  "Failed to delete Category": "Failed to delete Category"
 }

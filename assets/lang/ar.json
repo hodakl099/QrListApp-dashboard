@@ -10,5 +10,15 @@
   "error": "مشكلة من الخادم",
   "name": "الاسم",
   "Please enter a Category name": "قم باادخال اسم للقسم",
-  "image": "قم بااختيار ملف"
+  "image": "قم بااختيار ملف",
+  "successMessage": "تم اضافة العنصر بنجاح",
+  "Select Image": "اختر ملف",
+  "uploading": "جاري الحفظ...",
+  "Submit": "حفظ",
+  "Confirm Deletion": "تاكيد الحذف",
+  "deleteForever": "هل انت متاكد من حذف العنصر؟",
+  "Cancel": "الغاء",
+  "Delete": "حذف",
+  "Category deleted successfully": "تم حذف العنصر",
+  "Failed to delete Category": "لم يتم حذف العنصر"
 }

@@ -62,109 +62,111 @@ class _EditAgriculturalFormState extends State<EditAgriculturalForm> {
           padding: EdgeInsets.all(16.0),
           child: Container(
             width: 300,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(labelText: "${getLang(context, 'name')}"),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter Category name';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.text,
-                ),
-                SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () async {
-                    final files = await fileUploader.pickImages();
-                    if (files.isNotEmpty) {
-                      setState(() {
-                        _image = files[0];
-                      });
-                    }
-                  },
-                  child: Text("${getLang(context, 'Select Image')}"),
-                ),
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    if (_image != null)
-                      Chip(
-                        label: Text(
-                            _image is io.File ? (_image as io.File).path.split('/').last : _image.name
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(labelText: "${getLang(context, 'name')}"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter Category name';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.text,
+                  ),
+                  SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () async {
+                      final files = await fileUploader.pickImages();
+                      if (files.isNotEmpty) {
+                        setState(() {
+                          _image = files[0];
+                        });
+                      }
+                    },
+                    child: Text("${getLang(context, 'Select Image')}"),
+                  ),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      if (_image != null)
+                        Chip(
+                          label: Text(
+                              _image is io.File ? (_image as io.File).path.split('/').last : _image.name
+                          ),
+                          onDeleted: () {
+                            setState(() {
+                              _image = null;
+                            });
+                          },
+                          deleteIcon: Icon(Icons.close),
                         ),
-                        onDeleted: () {
-                          setState(() {
-                            _image = null;
-                          });
-                        },
-                        deleteIcon: Icon(Icons.close),
-                      ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _showLoadingDialog(context);
-                      if (_nameController.text.isEmpty || _image == null) {
-                        Navigator.of(context, rootNavigator: true).pop();
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _showLoadingDialog(context);
+                        if (_nameController.text.isEmpty) {
+                          Navigator.of(context, rootNavigator: true).pop();
 
-                        final snackBar = SnackBar(
-                          content: Text(
-                              '${getLang(context, 'image')}'),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        return;
-                      }
-
-
-                      bool isSuccess = false;
-                      String message =
-                          'Something went wrong. Please try again later.';
-                      try {
-                        var response;
-                        if (kIsWeb) {
-                          // Web-specific logic
-                          final category = CategoryApi(name: _nameController.text, image: _image);
-                          response =
-                          await updateCategoryWeb(widget.property.id!.toString(),category);
-                        } else {
-                          // Mobile-specific logic
-                          final category = CategoryApi(name: _nameController.text, image: _image);
-                          response =
-                          await updateCategoryMobile(widget.property.id!.toString(),category);
+                          final snackBar = SnackBar(
+                            content: Text(
+                                '${getLang(context, 'image')}'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
                         }
 
-                        if (response.statusCode == 200) {
-                          isSuccess = true;
-                            message = '${getLang(context, 'successMessage')}';
+                        bool isSuccess = false;
+                        String message =
+                            'Something went wrong. Please try again later.';
+                        try {
+                          var response;
+                          if (kIsWeb) {
+                            // Web-specific logic
+                            final category = CategoryApi(name: _nameController.text, image: _image);
+                            response =
+                            await updateCategoryWeb(widget.property.id!.toString(),category);
+                          } else {
+                            // Mobile-specific logic
+                            final category = CategoryApi(name: _nameController.text, image: _image);
+                            response =
+                            await updateCategoryMobile(widget.property.id!.toString(),category);
+                          }
 
-                          widget.refreshPropertiesNotifier.value++;
-                        } else {
-                          var responseBody =
-                          await response.stream.bytesToString();
-                          var decodedResponse = jsonDecode(responseBody);
-                          message = decodedResponse['message'] ??
-                              'Something went wrong. Please try again later.';
+                          if (response.statusCode == 200) {
+                            isSuccess = true;
+                              message = '${getLang(context, 'successMessage')}';
+
+                            widget.refreshPropertiesNotifier.value++;
+                          } else {
+                            var responseBody =
+                            await response.stream.bytesToString();
+                            var decodedResponse = jsonDecode(responseBody);
+                            message = decodedResponse['message'] ??
+                                'Something went wrong. Please try again later.';
+                          }
+                        } catch (e) {
+                          print("Error updating: $e");
+                        } finally {
+                          Navigator.of(context, rootNavigator: true).pop();
                         }
-                      } catch (e) {
-                        print("Error updating: $e");
-                      } finally {
-                        Navigator.of(context, rootNavigator: true).pop();
-                      }
 
-                      Fluttertoast.showToast(msg: message,toastLength:Toast.LENGTH_LONG);
-                      if (isSuccess) {
-                        Navigator.of(context).pop();
+                        Fluttertoast.showToast(msg: message,toastLength:Toast.LENGTH_LONG);
+                        if (isSuccess) {
+                          Navigator.of(context).pop();
+                        }
                       }
-                    }
-                  },
-                  child: Text("${getLang(context, 'Submit')}"),
-                ),
-              ],
+                    },
+                    child: Text("${getLang(context, 'Submit')}"),
+                  ),
+                ],
+              ),
             ),
           ),
         );

@@ -5,7 +5,7 @@ import 'package:http_parser/http_parser.dart';
 import '../../../models/category_model/Category.dart';
 import '../../../models/sub_category/SubCategoryModel.dart';
 
-Future<http.StreamedResponse> updateCategoryWeb(String id, SubCategory subcategory) async {
+Future<http.StreamedResponse> updateSubCategoryWeb(String id, SubCategory subcategory) async {
   var uri = Uri.parse("http://localhost:8080/QrList/subcategory/updateSubCategory/$id");
   var request = http.MultipartRequest("PUT", uri)
     ..fields['name'] = subcategory.name;

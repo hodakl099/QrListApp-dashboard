@@ -65,6 +65,7 @@ class _SubCategoriesState extends State<SubCategories> {
         ValueListenableBuilder(
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
+            _subCategories = getSubCategoriesById('2');
             return FutureBuilder<List<SubCategory>>(
               future: _subCategories,
               builder: (context, snapshot) {
@@ -127,6 +128,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
       body: ValueListenableBuilder(
         valueListenable: _refreshPropertiesNotifier,
           builder: (context, value, child) {
+          subcategories = getSubCategoriesById('2');
             return FutureBuilder<List<SubCategory>>(
               future: subcategories,
               builder: (context, snapshot) {

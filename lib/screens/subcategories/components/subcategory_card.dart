@@ -1,6 +1,6 @@
 import 'package:admin/models/sub_category/SubCategoryModel.dart';
 import 'package:admin/responsive.dart';
-import 'package:admin/server/categories/delete/delete_category_by_id.dart';
+import 'package:admin/server/sub_categories/delete/delete_sub_category_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +62,7 @@ class SubCategoryCard extends StatelessWidget {
                             onPressed: () async {
                               Navigator.of(context).pop();
                               bool isDeleted =
-                              await deleteCategoryById(category.id!.toString());
+                              await deleteSubCategoryById(category.id!.toString());
                               if (isDeleted) {
                                 Fluttertoast.showToast(
                                     toastLength: Toast.LENGTH_LONG,

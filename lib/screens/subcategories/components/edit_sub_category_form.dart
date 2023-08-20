@@ -1,13 +1,16 @@
 
 import 'dart:html';
 import 'package:admin/components/applocal.dart';
+import 'package:admin/models/sub_category/SubCategoryModel.dart';
 import 'package:admin/server/categories/put/update_calls_web.dart';
+import 'package:admin/server/sub_categories/put/update_calls_mobile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import '../../../models/category_model/Category.dart';
 import '../../../server/categories/put/update_calls_mobile.dart';
+import '../../../server/sub_categories/put/update_calls_web.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
@@ -129,14 +132,14 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                           var response;
                           if (kIsWeb) {
                             // Web-specific logic
-                            final category = CategoryApi(name: _nameController.text, image: _image);
+                            final category = SubCategory(name: _nameController.text, image: _image);
                             response =
-                            await updateCategoryWeb(widget.property.id!.toString(),category);
+                            await updateSubCategoryWeb(widget.property.id!.toString(),category);
                           } else {
                             // Mobile-specific logic
-                            final category = CategoryApi(name: _nameController.text, image: _image);
+                            final category = SubCategory(name: _nameController.text, image: _image);
                             response =
-                            await updateCategoryMobile(widget.property.id!.toString(),category);
+                            await updateSubCategoryMobile(widget.property.id!.toString(),category);
                           }
 
                           if (response.statusCode == 200) {

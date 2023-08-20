@@ -2,17 +2,19 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:admin/components/applocal.dart';
 import 'package:admin/models/sub_category/SubCategoryModel.dart';
-import 'package:admin/server/categories/get/get_category_by_id.dart';
 import 'package:admin/server/sub_categories/post/api_calls_mobile.dart';
 import 'package:admin/server/sub_categories/post/api_calls_web.dart';
 import 'package:flutter/material.dart';
-import '../../../models/category_model/Category.dart';
-import '../../../server/categories/get/get_all_categories.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../server/sub_categories/get/get_subcategries_by_id.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+
+
+
 
 class AddSubCategoryDialog extends StatefulWidget {
   final ValueNotifier<int> refreshCategoriesNotifier;
@@ -70,7 +72,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                     });
                   }
                 },
-                child: Text("Select Image"), // Label changed to "Select Image"
+                child: Text("${getLang(context,'Select Image')}"),
               ),
               Wrap(
                 spacing: 8,
@@ -122,7 +124,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
-                        message = 'Upload successful!';
+                        message = '${getLang(context, 'successMessage')}';
                         setState(() {
                           _subCategories = getSubCategoriesById('2');
                         });
@@ -140,14 +142,13 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                       Navigator.of(context, rootNavigator: true).pop();
                     }
 
-                    final snackBar = SnackBar(content: Text(message));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Fluttertoast.showToast(msg: message,toastLength:Toast.LENGTH_LONG);
                     if (isSuccess) {
                       Navigator.of(context).pop();
                     }
                   }
                 },
-                child: Text("Submit"),
+                child: Text("${getLang(context, 'Submit')}"),
               ),
             ],
           ),
@@ -167,7 +168,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
             children: [
               CircularProgressIndicator(),
               SizedBox(width: 20),
-              Text("Uploading..."),
+              Text("${getLang(context, 'uploading')}"),
             ],
           ),
         );

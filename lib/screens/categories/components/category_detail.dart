@@ -62,7 +62,7 @@ class CategoryDetailDialog extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return Dialog(
-                                    child: EditAgriculturalForm(
+                                    child: EditCategoryForm(
                                       property: property,
                                       refreshPropertiesNotifier:
                                       refreshPropertiesNotifier,

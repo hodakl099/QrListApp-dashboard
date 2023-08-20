@@ -2,21 +2,23 @@ import 'package:admin/models/sub_category/SubCategoryModel.dart';
 import 'package:admin/responsive.dart';
 import 'package:admin/server/categories/delete/delete_category_by_id.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import '../../../components/applocal.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
 
 
 
 class SubCategoryCard extends StatelessWidget {
-  final SubCategory property;
+  final SubCategory category;
   final ValueNotifier<int>? refreshPropertiesNotifier;
 
   const SubCategoryCard(
       {Key? key,
-      required this.property,
-      required info,
-      required this.refreshPropertiesNotifier})
+        required this.category,
+        required info,
+        required this.refreshPropertiesNotifier})
       : super(key: key);
 
   @override
@@ -39,51 +41,50 @@ class SubCategoryCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                InkWell(
-                  onTap: () async {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Confirm Deletion'),
-                          content: Text(
-                              'Are you sure you want to delete this property?'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: Text('Delete'),
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                                bool isDeleted =
-                                    await deleteCategoryById(property.id!.toString());
-                                if (isDeleted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            'Property deleted successfully')),
-                                  );
-                                  refreshPropertiesNotifier?.value++;
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content:
-                                            Text('Failed to delete property')),
-                                  );
-                                }
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: Icon(Icons.delete, color: Colors.white54),
-                )
+              InkWell(
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('${getLang(context, 'Confirm Deletion')}'),
+                        content: Text(
+                            '${getLang(context, 'deleteForever')}'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('${getLang(context, 'Cancel')}'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text('${getLang(context, 'Delete')}'),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              bool isDeleted =
+                              await deleteCategoryById(category.id!.toString());
+                              if (isDeleted) {
+                                Fluttertoast.showToast(
+                                    toastLength: Toast.LENGTH_LONG,
+                                    msg: '${getLang(context, 'Category deleted successfully')}'
+                                );
+                                refreshPropertiesNotifier?.value++;
+                              } else {
+                                Fluttertoast.showToast(
+                                    toastLength: Toast.LENGTH_LONG,
+                                    msg: '${getLang(context, 'Failed to delete Category')}'
+                                );
+
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Icon(Icons.delete, color: Colors.white54),
+              )
             ],
           ),
           SizedBox(height: 8),
@@ -93,12 +94,12 @@ class SubCategoryCard extends StatelessWidget {
                 height: 100,
                 width: cardWidth - (2 * (16.0 + imagePadding)),
                 padding: imagePadding,
-                category: property,
+                category: category,
               ),
             ),
             desktop: Expanded(
               child: buildNetworkImage(
-                category: property,
+                category: category,
                 height: 150,
                 width: cardWidth - (2 * (16.0 + imagePadding)),
                 padding: imagePadding,
@@ -111,7 +112,7 @@ class SubCategoryCard extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  property.name ?? '',
+                  category.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
@@ -127,6 +128,7 @@ class SubCategoryCard extends StatelessWidget {
     );
   }
 }
+
 
 Widget buildNetworkImage({
   required SubCategory category,

@@ -138,7 +138,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return SubCategoryCard(
-                        property: snapshot.data![index], info: null, refreshPropertiesNotifier: _refreshPropertiesNotifier,);
+                        category: snapshot.data![index], info: null, refreshPropertiesNotifier: _refreshPropertiesNotifier,);
                     },
                   );
                 } else if (snapshot.hasError) {
@@ -198,7 +198,7 @@ class FileInfoCardGridView extends StatelessWidget {
               print("Category ID is null");
             }
           },
-          child: SubCategoryCard(property: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
+          child: SubCategoryCard(category: properties[index], info: null, refreshPropertiesNotifier: refreshPropertiesNotifier,)
       ),
     );
   }

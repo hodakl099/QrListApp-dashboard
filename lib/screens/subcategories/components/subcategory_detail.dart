@@ -7,7 +7,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../models/category_model/Category.dart';
-import 'edit_subcategory_form.dart';
+import 'edit_sub_category_form.dart';
 
 class SubCategoryDetailDialog extends StatelessWidget {
   final String propertyId;

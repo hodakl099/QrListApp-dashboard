@@ -15,20 +15,20 @@ import 'dart:io' as io;
 import 'dart:html' as html;
 
 
-class EditCategoryForm extends StatefulWidget {
+class EditSubCategoryForm extends StatefulWidget {
   final CategoryApi property;
   final ValueNotifier<int> refreshPropertiesNotifier;
 
-  EditCategoryForm({
+  EditSubCategoryForm({
     required this.property,
     required this.refreshPropertiesNotifier,
   });
 
   @override
-  _EditCategoryFormState createState() => _EditCategoryFormState();
+  _EditSubCategoryFormState createState() => _EditSubCategoryFormState();
 }
 
-class _EditCategoryFormState extends State<EditCategoryForm> {
+class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _nameController = TextEditingController();

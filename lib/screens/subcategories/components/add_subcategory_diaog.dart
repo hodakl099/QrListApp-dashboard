@@ -1,9 +1,14 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:admin/components/applocal.dart';
+import 'package:admin/models/sub_category/SubCategoryModel.dart';
+import 'package:admin/server/categories/get/get_category_by_id.dart';
+import 'package:admin/server/sub_categories/post/api_calls_mobile.dart';
+import 'package:admin/server/sub_categories/post/api_calls_web.dart';
 import 'package:flutter/material.dart';
 import '../../../models/category_model/Category.dart';
 import '../../../server/categories/get/get_all_categories.dart';
+import '../../../server/sub_categories/get/get_subcategries_by_id.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
@@ -19,7 +24,7 @@ class AddSubCategoryDialog extends StatefulWidget {
 }
 
 class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
-  late Future<List<CategoryApi>> _propertiesFuture;
+  late Future<List<SubCategory>> _propertiesFuture;
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
@@ -32,7 +37,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllCategories();
+    _propertiesFuture = getSubCategoriesById('3');
   }
 
   @override
@@ -107,20 +112,20 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final property = CategoryApi(name: '', image: '');
-                        // response =
-                        //     await uploadAgriculturalPropertyWeb(property);
+                        final subCategory = SubCategory(name: _nameController.text, image: _image);
+                        response =
+                            await uploadSubCategoryWeb(subCategory,'3');
                       } else {
                         // Mobile-specific logic
-                        final property = CategoryApi(name: '', image: '');
-                        // response =
-                        //     await uploadAgriculturalPropertyMobile(property);
+                        final subCategory = SubCategory(name:_nameController.text, image: _image);
+                        response =
+                            await uploadSubCategoryMobile(subCategory,'3');
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllCategories();
+                          _propertiesFuture = getSubCategoriesById('3');
                         });
                         widget.refreshCategoriesNotifier.value++;
                       } else {

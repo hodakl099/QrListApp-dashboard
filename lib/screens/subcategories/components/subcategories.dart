@@ -29,6 +29,13 @@ class _SubCategoriesState extends State<SubCategories> {
     super.initState();
 
     _categories = fetchAllCategories();
+    _categories?.then((categories) {
+      if (categories.isNotEmpty && selectedCategory == null) {
+        setState(() {
+          selectedCategory = categories[0].id.toString();
+        });
+      }
+    });
   }
 
 
@@ -61,10 +68,12 @@ class _SubCategoriesState extends State<SubCategories> {
                       return DropdownButton<String>(
                         value: selectedCategory,
                         onChanged: (String? newValue) {
-                          setState(() {
+                          setState(
+                                  () {
                             selectedCategory = newValue;
                             _subCategories = getSubCategoriesById(selectedCategory!);
-                          });
+                          }
+                          );
                         },
                         items: snapshot.data!.map((CategoryApi category) {
                           return DropdownMenuItem<String>(
@@ -97,7 +106,7 @@ class _SubCategoriesState extends State<SubCategories> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                      return  AddSubCategoryDialog(refreshCategoriesNotifier: _refreshCategoriesNotifier,);
+                      return  AddSubCategoryDialog(refreshCategoriesNotifier: _refreshCategoriesNotifier,selectedCategory : selectedCategory!);
                   }
                 );
               },
@@ -112,6 +121,7 @@ class _SubCategoriesState extends State<SubCategories> {
           builder: (context, value, child) {
             _subCategories = getSubCategoriesById(selectedCategory!);
             return FutureBuilder<List<SubCategory>>(
+
               future: _subCategories,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {

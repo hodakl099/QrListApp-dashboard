@@ -18,8 +18,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AddSubCategoryDialog extends StatefulWidget {
   final ValueNotifier<int> refreshCategoriesNotifier;
+  final String selectedCategory;
 
-  AddSubCategoryDialog({required this.refreshCategoriesNotifier});
+  AddSubCategoryDialog({required this.refreshCategoriesNotifier, required this.selectedCategory});
 
   @override
   _AddSubCategoryDialogState createState() => _AddSubCategoryDialogState();
@@ -39,7 +40,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _subCategories = getSubCategoriesById('2');
+    _subCategories = getSubCategoriesById(widget.selectedCategory);
   }
 
   @override
@@ -115,18 +116,18 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                         // Web-specific logic
                         final subCategory = SubCategory(name: _nameController.text, image: _image);
                         response =
-                            await uploadSubCategoryWeb(subCategory,'2');
+                            await uploadSubCategoryWeb(subCategory,widget.selectedCategory);
                       } else {
                         // Mobile-specific logic
                         final subCategory = SubCategory(name:_nameController.text, image: _image);
                         response =
-                            await uploadSubCategoryMobile(subCategory,'2');
+                            await uploadSubCategoryMobile(subCategory,widget.selectedCategory);
                       }
                       if (response.statusCode == 200) {
                         isSuccess = true;
                         message = '${getLang(context, 'successMessage')}';
                         setState(() {
-                          _subCategories = getSubCategoriesById('2');
+                          _subCategories = getSubCategoriesById(widget.selectedCategory);
                         });
                         widget.refreshCategoriesNotifier.value++;
                       } else {

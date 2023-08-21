@@ -10,7 +10,7 @@ Future<bool> deleteCategoryById(String id) async {
       print('Property deleted successfully.');
       return true;
     } else {
-      print('Failed to delete property. Response code: ${response.statusCode}');
+      print('Failed to delete property. Response code: ${response.body}');
       return false;
     }
   } catch (e) {

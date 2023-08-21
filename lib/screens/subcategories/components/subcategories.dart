@@ -1,10 +1,13 @@
 import 'package:admin/components/applocal.dart';
 import 'package:admin/responsive.dart';
+import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:admin/server/sub_categories/get/get_subcategries_by_id.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
+import '../../../models/category_model/Category.dart';
 import '../../../models/sub_category/SubCategoryModel.dart';
 import 'add_subcategory_diaog.dart';
 import 'subcategory_card.dart';
@@ -18,11 +21,14 @@ class SubCategories extends StatefulWidget {
 class _SubCategoriesState extends State<SubCategories> {
   final ValueNotifier<int> _refreshCategoriesNotifier = ValueNotifier<int>(0);
   Future<List<SubCategory>>? _subCategories;
+  Future<List<CategoryApi>>? _categories;
+  String? selectedCategory;
 
   @override
   void initState() {
     super.initState();
-    _subCategories = getSubCategoriesById('2');
+
+    _categories = fetchAllCategories();
   }
 
 
@@ -35,10 +41,49 @@ class _SubCategoriesState extends State<SubCategories> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "${getLang(context, 'Category')}",
-              style: Theme.of(context).textTheme.titleLarge,
+            Row(
+              children: [
+                Text(
+                  "${getLang(context, 'Category')}",
+                  style: Theme.of(context).textTheme.titleLarge,
 
+                ),
+                FutureBuilder<List<CategoryApi>>(
+                  future: _categories,
+                  builder: (context, snapshot) {
+                    // If the connection is still ongoing, return a loading indicator.
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+
+                    // If we're done and we have data, return the dropdown.
+                    if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                      return DropdownButton<String>(
+                        value: selectedCategory,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCategory = newValue;
+                            _subCategories = getSubCategoriesById(selectedCategory!);
+                          });
+                        },
+                        items: snapshot.data!.map((CategoryApi category) {
+                          return DropdownMenuItem<String>(
+                            value: category.id.toString(),
+                            child: Text(category.name),
+                          );
+                        }).toList(),
+                      );
+                    }
+
+                    // If there's an error, return an error text.
+                    if (snapshot.hasError) {
+                      return Text("Error fetching categories. Please try again later!");
+                    }
+
+                    return SizedBox.shrink();
+                  },
+                ),
+              ]
             ),
             ElevatedButton.icon(
               style: TextButton.styleFrom(
@@ -65,7 +110,7 @@ class _SubCategoriesState extends State<SubCategories> {
         ValueListenableBuilder(
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
-            _subCategories = getSubCategoriesById('2');
+            _subCategories = getSubCategoriesById(selectedCategory!);
             return FutureBuilder<List<SubCategory>>(
               future: _subCategories,
               builder: (context, snapshot) {

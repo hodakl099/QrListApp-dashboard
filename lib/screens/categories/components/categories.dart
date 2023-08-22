@@ -190,7 +190,6 @@ class FileInfoCardGridView extends StatelessWidget {
       itemBuilder: (context, index) => GestureDetector(
           onTap: () {
             var propertyId = properties[index].id;
-            print('Property ID: $propertyId');
 
             if (propertyId != null) {
               showDialog(

@@ -123,7 +123,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                         response =
                             await uploadSubCategoryMobile(subCategory,widget.selectedCategory);
                       }
-                      if (response.statusCode == 200) {
+                      if (response.statusCode == 201) {
                         isSuccess = true;
                         message = '${getLang(context, 'successMessage')}';
                         setState(() {

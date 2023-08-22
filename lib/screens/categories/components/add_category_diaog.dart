@@ -119,7 +119,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         response =
                             await uploadCategoryMobile(category);
                       }
-                      if (response.statusCode == 200) {
+                      if (response.statusCode == 201) {
                         isSuccess = true;
                         message = '${getLang(context, 'successMessage')}';
                         setState(() {

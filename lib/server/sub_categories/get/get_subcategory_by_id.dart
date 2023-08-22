@@ -9,7 +9,7 @@ Future<CategoryApi> fetchSubCategoryById(String id) async {
 
 
   if (response.statusCode == 200) {
-    return CategoryApi.fromJson(jsonDecode(response.body));
+    return CategoryApi.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
   } else {
     throw Exception('Failed to load property');
   }

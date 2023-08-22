@@ -51,7 +51,7 @@ class _SubCategoriesState extends State<SubCategories> {
             Row(
               children: [
                 Text(
-                  "${getLang(context, 'Category')}",
+                  "${getLang(context, 'products')}",
                   style: Theme.of(context).textTheme.titleLarge,
 
                 ),
@@ -77,6 +77,7 @@ class _SubCategoriesState extends State<SubCategories> {
                           );
                         },
                         items: snapshot.data!.map((CategoryApi category) {
+                          print('CategorName: ' + category.name);
                           return DropdownMenuItem<String>(
                             value: category.id.toString(),
                             child: Padding(

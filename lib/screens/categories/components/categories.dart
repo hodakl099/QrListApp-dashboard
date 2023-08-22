@@ -87,7 +87,14 @@ class _CategoriesState extends State<Categories> {
                   );
                 } else if (snapshot.hasError) {
                   print("${snapshot.error}");
-                  return Text("${getLang(context, 'empty')}");
+                  return Column(
+                      children: [
+                      Text("${getLang(context, 'empty')}"),
+                       Center(
+                       child: Image.asset('assets/images/emptylist.png',height: 250,width: 250,)
+                           ),
+                      ]
+                  );
                 }
                 return CircularProgressIndicator();
               },
@@ -135,7 +142,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
               future:properties,
               builder: (context, snapshot) {
                 if(snapshot.data!.isEmpty) {
-                  return Center(child: Text("${getLang(context, 'error')}"));
+                  // return Center(child: Text("${getLang(context, 'error')}"));
+                  return Center(
+                      child: Image.asset('assets/images/emptylist.png')
+                  );
                 }
                 if (snapshot.hasData) {
                   return ListView.builder(

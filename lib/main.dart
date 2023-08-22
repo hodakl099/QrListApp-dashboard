@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.black),
         canvasColor: secondaryColor,
       ),
-      home:LogInPage(),
+      home:MainScreen(username: 'TAJ MEDIA'),
     );
   }
 }

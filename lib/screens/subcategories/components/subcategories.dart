@@ -100,6 +100,7 @@ class _SubCategoriesState extends State<SubCategories> {
                 ),
               ]
             ),
+            if(selectedCategory != null)
             ElevatedButton.icon(
               style: TextButton.styleFrom(
                 padding: EdgeInsets.symmetric(
@@ -127,7 +128,14 @@ class _SubCategoriesState extends State<SubCategories> {
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
             if (selectedCategory == null) {
-              return Text('${getLang(context, 'addParentCategory')}');
+              return Column(
+                  children: [
+                    Text("${getLang(context, 'addParentCategory')}"),
+                    Center(
+                        child: Image.asset('assets/images/emptylist.png',height: 250,width: 250,)
+                    ),
+                  ]
+              );
             }
             _subCategories = getSubCategoriesById(selectedCategory!);
             return FutureBuilder<List<SubCategory>>(
@@ -199,7 +207,14 @@ class _CategoryListPageState extends State<CategoryListPage> {
               future: subcategories,
               builder: (context, snapshot) {
                 if(snapshot.data!.isEmpty) {
-                  return Center(child: Text("${getLang(context, 'error')}"));
+                  return Column(
+                      children: [
+                        Text("${getLang(context, 'empty')}"),
+                        Center(
+                            child: Image.asset('assets/images/emptylist.png',height: 250,width: 250,)
+                        ),
+                      ]
+                  );
                 }
                 if (snapshot.hasData) {
                   return ListView.builder(

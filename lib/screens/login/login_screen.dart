@@ -344,31 +344,17 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
 
       Navigator.of(context).pop();
 
-
-      // DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(_emailController.text).get();
-      //
-      // String username = userDoc.get('username');
-      //
-      // String role = userDoc.get('role');
-      //
-      // List<String> permissions = List<String>.from(userDoc['permissions']);
-      // menuAppController.userPermissions = permissions;
-      // menuAppController.role = role;
       menuAppController.notifyListeners();
-
-      // print(permissions);
-
-      // this.username = username;
 
       return true;
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
-            msg: 'No user found for that email.');
+            msg: 'Invalid email or password');
       } else if (e.code == 'wrong-password') {
         Fluttertoast.showToast(
-            msg: 'Wrong password provided for that user.');
+            msg: 'Invalid email or password');
       }
       Navigator.of(context).pop();  // Dismiss loading dialog
       return false;

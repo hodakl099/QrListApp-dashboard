@@ -6,6 +6,7 @@ import 'package:admin/server/sub_categories/post/api_calls_mobile.dart';
 import 'package:admin/server/sub_categories/post/api_calls_web.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../../constants.dart';
 import '../../../server/sub_categories/get/get_subcategries_by_id.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
@@ -74,6 +75,9 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                   }
                 },
                 child: Text("${getLang(context,'Select Image')}"),
+                style: ButtonStyle(
+                  backgroundColor: materialStateColor,
+                ),
               ),
               Wrap(
                 spacing: 8,
@@ -150,6 +154,9 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                   }
                 },
                 child: Text("${getLang(context, 'Submit')}"),
+                style: ButtonStyle(
+                  backgroundColor: materialStateColor,
+                ),
               ),
             ],
           ),

@@ -4,6 +4,7 @@
   "Category" : "الاقسام",
   "Product" : "المنتجات",
   "Logout" : "تسجيل الخروج",
+  "logoutConfirmation" : "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "Add New Category" : "اضف قسم",
   "There is no Categories available." : "اضف قسم",
   "empty" : "لايوجد عناصر",
@@ -28,5 +29,7 @@
   "failedToDeleteImage": "فشل حذف الصورة",
   "Edit Category": "تعديل العنصر",
   "wentWrong": "حدث شيء خطأ",
-  "addParentCategory"  : "الرجاء إضافة فئة أولا لتتمكن من إضافة فئات فرعية."
+  "addParentCategory"  : "الرجاء إضافة فئة أولا لتتمكن من إضافة فئات فرعية.",
+  "yes"  : "نعم",
+  "loggedOut"  : "لقد قمت بتسجيل الخروج"
 }

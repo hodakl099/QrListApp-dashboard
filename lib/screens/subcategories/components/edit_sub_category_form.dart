@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import '../../../constants.dart';
 import '../../../models/category_model/Category.dart';
 import '../../../server/categories/put/update_calls_mobile.dart';
 import '../../../server/sub_categories/put/update_calls_web.dart';
@@ -91,6 +92,9 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                       }
                     },
                     child: Text("${getLang(context, 'Select Image')}"),
+                    style: ButtonStyle(
+                      backgroundColor: materialStateColor,
+                    ),
                   ),
                   Wrap(
                     spacing: 8,
@@ -167,6 +171,9 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                       }
                     },
                     child: Text("${getLang(context, 'Submit')}"),
+                    style: ButtonStyle(
+                      backgroundColor: materialStateColor,
+                    ),
                   ),
                 ],
               ),

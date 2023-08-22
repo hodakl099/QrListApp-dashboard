@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:admin/components/applocal.dart';
+import 'package:admin/constants.dart';
 import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:admin/server/categories/post/api_calls_mobile.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,9 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   }
                 },
                 child: Text("${getLang(context,'Select Image')}"),
+                style: ButtonStyle(
+                  backgroundColor: materialStateColor,
+                ),
               ),
               Wrap(
                 spacing: 8,
@@ -147,6 +151,9 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   }
                 },
                 child: Text("${getLang(context, 'Submit')}"),
+                style: ButtonStyle(
+                  backgroundColor: materialStateColor,
+                ),
               ),
             ],
           ),

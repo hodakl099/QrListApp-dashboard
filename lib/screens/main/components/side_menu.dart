@@ -24,7 +24,7 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.asset("assets/images/tajakar.png"),
+            child: Image.asset("assets/images/tajmedia.jpeg"),
           ),
           DrawerListTile(
             title: "${getLang(context, 'Category')}",
@@ -69,22 +69,22 @@ class SideMenu extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Logout'),
-          content: Text('Are you sure you want to logout?'),
+          title: Text('${getLang(context, 'Logout')}'),
+          content: Text('${getLang(context, 'logoutConfirmation')}'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: Text('${getLang(context,'Cancel')}',style: TextStyle(color: Colors.white),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: Text('${getLang(context, 'yes')}',style: TextStyle(color: Colors.white),),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 _signOut().then((value) {
                   Fluttertoast.showToast(
-                    msg: 'You are logged out!',
+                    msg: '${getLang(context, 'loggedOut')}',
                     toastLength: Toast.LENGTH_LONG,
                   );
                   navigatorKey.currentState!.pushReplacement(

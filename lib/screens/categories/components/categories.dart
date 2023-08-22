@@ -47,6 +47,7 @@ class _CategoriesState extends State<Categories> {
                   vertical:
                   defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
                 ),
+                  backgroundColor: Colors.grey
               ),
               onPressed: () {
                 showDialog(

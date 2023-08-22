@@ -4,6 +4,7 @@
   "Category" : "Category",
   "Product" : "Products",
   "Logout" : "Logout",
+  "logoutConfirmation" : "Logout",
   "Add New Category" : "Add New Category",
   "There is no Categories available." : "There is no Categories available.",
   "empty" : "No properties available",
@@ -28,5 +29,7 @@
   "failedToDeleteImage": "Failed to delete the image",
   "Edit Category": "Edit Category",
   "wentWrong": "Something went wrong!",
-  "addParentCategory"  : "Please Add a category first for you to be able to add subcategories."
+  "addParentCategory"  : "Please Add a category first for you to be able to add subcategories.",
+  "yes"  : "yes",
+  "loggedOut"  : "You are logged out."
 }

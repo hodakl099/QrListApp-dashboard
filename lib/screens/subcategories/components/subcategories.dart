@@ -107,6 +107,7 @@ class _SubCategoriesState extends State<SubCategories> {
                   vertical:
                   defaultPadding / (Responsive.isMobile(context) ? 2 : 1),
                 ),
+                backgroundColor: Colors.grey
               ),
               onPressed: () {
                 showDialog(

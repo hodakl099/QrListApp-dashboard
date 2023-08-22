@@ -158,7 +158,7 @@ Widget buildNetworkImage({
         );
       },
       errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-        return Image.asset('assets/images/tajakar.png', fit: BoxFit.cover);
+        return Image.asset('assets/images/foodplaceholder.jpeg', fit: BoxFit.cover);
       },
     ),
   );

@@ -31,5 +31,17 @@
   "wentWrong": "Something went wrong!",
   "addParentCategory"  : "Please Add a category first for you to be able to add subcategories.",
   "yes"  : "yes",
-  "loggedOut"  : "You are logged out."
+  "loggedOut"  : "You are logged out.",
+  "logIn"  : "LOG IN",
+  "email"  : "Email...",
+  "password"  : "Password...",
+  "loginAction"  : "LOGIN",
+  "forgotPassword"  : "Forgotten password",
+  "loginFailed" : "Log in Failed!",
+  "incorrectPassOrEmail" : "Incorrect password or email....",
+  "enterAnEmail" : "Please enter an email",
+  "enterValidEmail" : "Please enter a valid email",
+  "enterValidPassword" : "Please enter a password",
+  "characterLimits" : "Password must be at least 6 characters long"
+
 }

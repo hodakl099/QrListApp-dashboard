@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:admin/components/applocal.dart';
+import 'package:admin/constants.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,21 +36,21 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
 
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email';
+      return '${getLang(context, 'enterAnEmail')}';
     }
     const emailRegex = r'^[^@]+@[^@]+\.[^@]+';
     if (!RegExp(emailRegex).hasMatch(value)) {
-      return 'Please enter a valid email';
+      return '${getLang(context, 'enterValidEmail')}';
     }
     return null;
   }
 
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return '${getLang(context, 'enterValidPassword')}';
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
+      return '${getLang(context, 'characterLimits')}';
     }
     return null;
   }
@@ -145,7 +147,7 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
       key: _formKey,
       child: Scaffold(
         key: menuAppController.scaffoldKey,
-        backgroundColor: Color(0xff192028),
+        backgroundColor: Colors.white,
         body: ScrollConfiguration(
           behavior: MyBehavior(),
           child: SingleChildScrollView(
@@ -200,7 +202,7 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
                           mainAxisSize: MainAxisSize.min, // <-- This is the change
                           children: [
                             Text(
-                              'TAJ AKAR',
+                              '${getLang(context, 'logIn')}',
                               style: TextStyle(
                                 color: Colors.white.withOpacity(.7),
                                 fontSize: 16 * scale,
@@ -213,24 +215,24 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
                             // inputTextField(Icons.account_circle_outlined,
                             //     'User name...', false, false, 1),
                             SizedBox(height: 10 * scale),
-                            inputTextField(Icons.email_outlined, 'Email...', false, true, 1.0, _emailController, emailValidator),
+                            inputTextField(Icons.email_outlined, '${getLang(context, 'email')}', false, true, 1.0, _emailController, emailValidator),
                             SizedBox(height: 10 * scale),
-                            inputTextField(Icons.lock_outline, 'Password...', true,
+                            inputTextField(Icons.lock_outline, '${getLang(context, 'password')}', true,
                                 false, 1,_passwordController,passwordValidator),
                             SizedBox(height: 10 * scale),
                             Wrap(
                                 children: [
-                                  actionButton('LOGIN', 1, () async {
+                                  actionButton('${getLang(context, 'loginAction')}', 1, () async {
                                     HapticFeedback.lightImpact();
-                                    Fluttertoast.showToast(
-                                        msg: 'Login button pressed');
+                                    // Fluttertoast.showToast(
+                                    //     msg: 'Login button pressed');
                                     _showLoadingDialog(context);
                                  bool loginSuccess =  await _login();
 
                                  if(loginSuccess) {
                                  _passwordController.clear();
                                  _emailController.clear();
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(username: username,)));
+                                   Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(username: 'TAJ MEDIA')));
                                  }
 
                                  if(!loginSuccess) {
@@ -238,11 +240,6 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
                                  }
                                   }),
                                   SizedBox(width: 10 * scale),
-                                  actionButton('Forgotten password!', 1, () {
-                                    HapticFeedback.lightImpact();
-                                    Fluttertoast.showToast(
-                                        msg: 'Forgotten password button pressed');
-                                  }),
                                 ],
                             ),
                           ],
@@ -273,13 +270,13 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 10 * scale),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.05),
+            color: Colors.grey,
             borderRadius: BorderRadius.circular(15),
           ),
           child: TextFormField(
             controller: controller,
             validator: validator,
-            style: TextStyle(color: Colors.white.withOpacity(.8)),
+            style: TextStyle(color: Colors.white),
             cursorColor: Colors.white,
             obscureText: isPassword,
             keyboardType:
@@ -293,7 +290,7 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
               hintMaxLines: 1,
               hintText: hintText,
               hintStyle:
-              TextStyle(fontSize: 12 * scale, color: Colors.white.withOpacity(.5)),
+              TextStyle(fontSize: 12 * scale, color: Colors.white),
             ),
           ),
         ),
@@ -307,15 +304,15 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaY: 15, sigmaX: 15),
         child: InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
+          highlightColor: Colors.grey,
+          splashColor: Colors.grey,
           onTap: voidCallback,
           child: Container(
             height: 50 * scale,
             width: 200 * scale,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.05),
+              color: Colors.grey,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Text(
@@ -402,11 +399,11 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Log in Failed!'),
-          content: Text('Incorrect password or email....'),
+          title: Text('${getLang(context, 'loginFailed')}', style: TextStyle(color: Colors.white),),
+          content: Text('${getLang(context, 'incorrectPassOrEmail')}', style: TextStyle(color: Colors.white),),
           actions: <Widget>[
             TextButton(
-              child: Text('Dismiss'),
+              child: Text('${getLang(context, 'Cancel')}',style: TextStyle(color: Colors.white),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -427,7 +424,7 @@ class MyPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..shader = LinearGradient(
-          colors: [Colors.blueAccent, Colors.lightBlueAccent],
+          colors: [Colors.grey, Colors.blueGrey],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight)
           .createShader(Rect.fromCircle(

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:admin/components/applocal.dart';
-import 'package:admin/constants.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -341,25 +340,25 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
         email: email,
         password: password,
       );
-      User? user = userCredential.user;
+       userCredential.user;
 
       Navigator.of(context).pop();
 
 
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(_emailController.text).get();
-
-      String username = userDoc.get('username');
-
-      String role = userDoc.get('role');
-
-      List<String> permissions = List<String>.from(userDoc['permissions']);
-      menuAppController.userPermissions = permissions;
-      menuAppController.role = role;
+      // DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(_emailController.text).get();
+      //
+      // String username = userDoc.get('username');
+      //
+      // String role = userDoc.get('role');
+      //
+      // List<String> permissions = List<String>.from(userDoc['permissions']);
+      // menuAppController.userPermissions = permissions;
+      // menuAppController.role = role;
       menuAppController.notifyListeners();
 
-      print(permissions);
+      // print(permissions);
 
-      this.username = username;
+      // this.username = username;
 
       return true;
     } on FirebaseAuthException catch (e) {

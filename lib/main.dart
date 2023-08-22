@@ -16,10 +16,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: "AIzaSyBj-G9Gdy508-Lmy9eY61Pv_2qpz-_xg5U",
-      appId: "1:482332348227:web:577370e729d3a3bfe029f6",
-      messagingSenderId: "482332348227",
-      projectId: "tajakar-deb23",
+      apiKey: "AIzaSyBRwCJQXc4tcJikA3ijmG3XHvY-U1wyAl8",
+      appId: "1:137258927882:web:cae1f1e4c7b03b061a9cf3",
+      messagingSenderId: "137258927882",
+      projectId: "qrlist-1a56f",
     ),
   );
   runApp(
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.black),
         canvasColor: secondaryColor,
       ),
-      home:MainScreen(username: 'TAJ MEDIA'),
+      home:LogInPage(),
     );
   }
 }

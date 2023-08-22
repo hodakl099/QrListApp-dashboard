@@ -55,6 +55,7 @@ class _SubCategoriesState extends State<SubCategories> {
                   style: Theme.of(context).textTheme.titleLarge,
 
                 ),
+                SizedBox(width: 30,),
                 FutureBuilder<List<CategoryApi>>(
                   future: _categories,
                   builder: (context, snapshot) {
@@ -78,18 +79,23 @@ class _SubCategoriesState extends State<SubCategories> {
                         items: snapshot.data!.map((CategoryApi category) {
                           return DropdownMenuItem<String>(
                             value: category.id.toString(),
-                            child: Text(category.name),
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 10 ),
+                                child: Center(child: Text(category.name))),
                           );
                         }).toList(),
+                        iconSize: 18,
                       );
                     }
-
-                    // If there's an error, return an error text.
-                    if (snapshot.hasError) {
-                      return Text("Error fetching categories. Please try again later!");
+                    if (snapshot.connectionState == ConnectionState.done && (snapshot.data == null || snapshot.data!.isEmpty)) {
+                      return Text('${getLang(context, 'empty')}');
                     }
 
-                    return SizedBox.shrink();
+                    if (snapshot.hasError) {
+                      return Text("${getLang(context, 'wentWrong')}");
+                    }
+
+                    return Text('${getLang(context, 'Add New Category')}');
                   },
                 ),
               ]
@@ -119,9 +125,11 @@ class _SubCategoriesState extends State<SubCategories> {
         ValueListenableBuilder(
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
+            if (selectedCategory == null) {
+              return Text('${getLang(context, 'addParentCategory')}');
+            }
             _subCategories = getSubCategoriesById(selectedCategory!);
             return FutureBuilder<List<SubCategory>>(
-
               future: _subCategories,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -139,9 +147,13 @@ class _SubCategoriesState extends State<SubCategories> {
                       childAspectRatio: _size.width < 1400 ? 1.1 : 1.4, refreshPropertiesNotifier: _refreshCategoriesNotifier,
                     ),
                   );
-                } else if (snapshot.hasError) {
+                }
+                if (snapshot.hasError) {
                   print(snapshot.error);
                   return Text("${getLang(context, 'empty')}");
+                }
+                if (snapshot.connectionState == ConnectionState.done && (snapshot.data == null || snapshot.data!.isEmpty)) {
+                  return Text('There is no categories available, add new categories!');
                 }
                 return CircularProgressIndicator();
               },
@@ -157,8 +169,6 @@ class _SubCategoriesState extends State<SubCategories> {
     _refreshCategoriesNotifier.dispose();
     super.dispose();
   }
-
-
 }
 
 class CategoryListPage extends StatefulWidget {

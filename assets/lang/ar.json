@@ -26,5 +26,7 @@
   "imageDeletionConfirm": "هل أنت متأكد أنك تريد حذف هذه الصورة؟",
   "imageDeletedSuccessfully": "تم حذف الصورة بنجاح",
   "failedToDeleteImage": "فشل حذف الصورة",
-  "Edit Category": "تعديل العنصر"
+  "Edit Category": "تعديل العنصر",
+  "wentWrong": "حدث شيء خطأ",
+  "addParentCategory"  : "الرجاء إضافة فئة أولا لتتمكن من إضافة فئات فرعية."
 }

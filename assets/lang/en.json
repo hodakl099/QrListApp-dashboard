@@ -26,5 +26,7 @@
   "imageDeletionConfirm": "Are you sure you want to delete this Image?",
   "imageDeletedSuccessfully": "Image Deleted Successfully",
   "failedToDeleteImage": "Failed to delete the image",
-  "Edit Category": "Edit Category"
+  "Edit Category": "Edit Category",
+  "wentWrong": "Something went wrong!",
+  "addParentCategory"  : "Please Add a category first for you to be able to add subcategories."
 }

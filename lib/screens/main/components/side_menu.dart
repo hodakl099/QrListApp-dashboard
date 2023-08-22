@@ -24,7 +24,7 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.asset("assets/images/tajmedia.jpeg"),
+            child: SvgPicture.asset("assets/images/tajmedialogo.svg",color: Colors.white,),
           ),
           DrawerListTile(
             title: "${getLang(context, 'Category')}",

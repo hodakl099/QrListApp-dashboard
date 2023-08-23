@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:admin/components/applocal.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
@@ -24,7 +25,7 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
   late Animation<double> animation3;
   late Animation<double> animation4;
 
-  late String username;
+  late String firebaseUID;
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
@@ -228,7 +229,7 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
                                  if(loginSuccess) {
                                  _passwordController.clear();
                                  _emailController.clear();
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(username: 'TAJ MEDIA')));
+                                   Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
                                  }
 
                                  if(!loginSuccess) {
@@ -329,8 +330,8 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
       return false;
     }
 
-    final email = _emailController.text;
-    final password = _passwordController.text;
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -341,7 +342,37 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
 
       Navigator.of(context).pop();
 
-      menuAppController.notifyListeners();
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(_emailController.text).get();
+
+
+      if (userDoc.exists) {
+        Map<String, dynamic>? data = userDoc.data() as Map<String, dynamic>?;
+        if (data != null) {
+          print(data);
+          if (data.containsKey('username')) {
+            menuAppController.username = data['username'];
+          } else {
+            print('Username field is not in the document.');
+          }
+        } else {
+          print('Document data is null.');
+        }
+      } else {
+        print('The document does not exist.');
+      }
+
+
+
+      String username = userDoc.get('username');
+
+      String restaurantId = userDoc.get('ID');
+
+      print(username);
+      print(restaurantId);
+
+      menuAppController.setUserName(username);
+
+      menuAppController.setRestaurantId(restaurantId);
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -413,7 +444,6 @@ class MyPainter extends CustomPainter {
         center: Offset(0, 0),
         radius: radius,
       ));
-
     canvas.drawCircle(Offset.zero, radius, paint);
   }
 
@@ -432,6 +462,4 @@ class MyBehavior extends ScrollBehavior {
       BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
-
-
 }

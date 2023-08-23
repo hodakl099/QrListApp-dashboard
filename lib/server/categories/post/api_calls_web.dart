@@ -9,7 +9,7 @@ import '../../../models/category_model/Category.dart';
 
 
 Future<http.StreamedResponse> uploadCategoryPropertyWeb(CategoryApi category) async {
-  var uri = Uri.parse("http://localhost:8080/QrList/category/AddCategory");
+  var uri = Uri.parse("http://localhost:8080/QrList/category/AddCategory/1");
   var request = http.MultipartRequest("POST", uri)
     ..fields['name'] = category.name;
 

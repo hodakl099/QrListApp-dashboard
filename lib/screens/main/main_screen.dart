@@ -1,19 +1,23 @@
 import 'package:admin/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../controllers/MenuAppController.dart';
 import '../dashboard/dashboard_screen.dart';
 import 'components/side_menu.dart';
 
 class MainScreen extends StatelessWidget {
-  final String username;
+  // final String username;
 
-  MainScreen({required this.username});
+
+  // MainScreen({required this.username});
 
 
   @override
   Widget build(BuildContext context) {
+    MenuAppController menuAppController = Provider.of<MenuAppController>(context, listen: true);
     return Scaffold(
 
-      drawer: SideMenu(),
+      drawer: Responsive.isDesktop(context) ? null : SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +32,7 @@ class MainScreen extends StatelessWidget {
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: DashboardScreen(username: 'TAJ MEDIA'),
+              child: DashboardScreen(username:menuAppController.username),
             ),
           ],
         ),

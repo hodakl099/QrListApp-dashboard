@@ -3,9 +3,18 @@ import 'package:flutter/material.dart';
 class MenuAppController extends ChangeNotifier {
 
 
-  List<String> userPermissions  = [];
 
-  String role = "";
+  String username = "";
+  String  restaurantId = "";
+
+  setUserName(String name) {
+    username = name;
+    notifyListeners();
+  }
+  setRestaurantId(String id) {
+    restaurantId = id;
+    notifyListeners();
+  }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:admin/components/applocal.dart';
 import 'package:admin/screens/main/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../controllers/MenuAppController.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class LogInPage extends StatefulWidget {
   @override
@@ -211,8 +210,6 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
                               ),
                             ),
                             SizedBox(height: 10 * scale),
-                            // inputTextField(Icons.account_circle_outlined,
-                            //     'User name...', false, false, 1),
                             SizedBox(height: 10 * scale),
                             inputTextField(Icons.email_outlined, '${getLang(context, 'email')}', false, true, 1.0, _emailController, emailValidator),
                             SizedBox(height: 10 * scale),

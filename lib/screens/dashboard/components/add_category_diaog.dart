@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../controllers/MenuAppController.dart';
 import '../../../models/category_model/Category.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
@@ -39,11 +41,15 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final menuAppController = Provider.of<MenuAppController>(context, listen: false);
+      _propertiesFuture = fetchAllCategories(menuAppController.restaurantId);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final menuAppController = Provider.of<MenuAppController>(context,listen: true);
     return AlertDialog(
       content: SingleChildScrollView(
         child: Form(
@@ -290,7 +296,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         isSuccess = true;
                         message = 'Upload successful!';
                         setState(() {
-                          _propertiesFuture = fetchAllCategories();
+                          _propertiesFuture = fetchAllCategories(menuAppController.restaurantId);
                         });
                       } else {
                         var responseBody = await response.stream.bytesToString();

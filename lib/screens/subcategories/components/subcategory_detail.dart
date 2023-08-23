@@ -1,12 +1,8 @@
-import 'package:admin/server/categories/delete/delete_category_image_by_id.dart';
-import 'package:admin/server/categories/get/get_category_by_id.dart';
 import 'package:admin/server/sub_categories/delete/delete_sub_category_by_id.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
-import 'package:chewie/chewie.dart';
 import '../../../components/applocal.dart';
 import '../../../controllers/MenuAppController.dart';
 import '../../../models/category_model/Category.dart';

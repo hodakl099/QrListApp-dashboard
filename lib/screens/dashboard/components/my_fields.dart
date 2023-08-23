@@ -1,6 +1,8 @@
 import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../constants.dart';
+import '../../../controllers/MenuAppController.dart';
 import '../../../models/category_model/Category.dart';
 import 'category_card.dart';
 
@@ -17,7 +19,8 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllCategories();
+    final menuAppController = Provider.of<MenuAppController>(context,listen: true);
+    _propertiesFuture = fetchAllCategories(menuAppController.restaurantId);
   }
 
 
@@ -44,7 +47,10 @@ class _PropertyListPageState extends State<PropertyListPage> {
   @override
   void initState() {
     super.initState();
-    properties = fetchAllCategories();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final menuAppController = Provider.of<MenuAppController>(context, listen: false);
+    properties = fetchAllCategories(menuAppController.restaurantId);
+    });
   }
 
 

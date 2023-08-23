@@ -5,7 +5,8 @@ class MenuAppController extends ChangeNotifier {
 
 
   String username = "";
-  String  restaurantId = "";
+  String email = "";
+  String    restaurantId = "";
 
   setUserName(String name) {
     username = name;
@@ -15,6 +16,12 @@ class MenuAppController extends ChangeNotifier {
     restaurantId = id;
     notifyListeners();
   }
+
+  setRestaurantEmail(String emailUser) {
+    email = emailUser;
+    notifyListeners();
+  }
+
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../../../models/category_model/Category.dart';
 
-Future<http.StreamedResponse> uploadCategoryMobile(CategoryApi category) async {
-  var uri = Uri.parse("http://localhost:8080/QrList/category/AddCategory/1");
+Future<http.StreamedResponse> uploadCategoryMobile(CategoryApi category,String restaurantId) async {
+  var uri = Uri.parse("http://localhost:8080/QrList/category/AddCategory/$restaurantId}");
   var request = http.MultipartRequest("POST", uri)
     ..fields['name'] = category.name;
 

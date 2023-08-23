@@ -2,7 +2,6 @@
 import 'dart:html';
 import 'package:admin/components/applocal.dart';
 import 'package:admin/models/sub_category/SubCategoryModel.dart';
-import 'package:admin/server/categories/put/update_calls_web.dart';
 import 'package:admin/server/sub_categories/put/update_calls_mobile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +9,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import '../../../constants.dart';
 import '../../../models/category_model/Category.dart';
-import '../../../server/categories/put/update_calls_mobile.dart';
 import '../../../server/sub_categories/put/update_calls_web.dart';
 import '../../../util/file_uploader.dart';
 import '../../../util/file_uploader_mobile.dart';
 import '../../../util/file_uploader_web.dart';
 import 'dart:io' as io;
-import 'dart:html' as html;
 
 
 class EditSubCategoryForm extends StatefulWidget {

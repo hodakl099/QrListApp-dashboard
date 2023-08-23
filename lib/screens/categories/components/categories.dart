@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants.dart';
 import '../../../controllers/MenuAppController.dart';
-import '../../../models/category_model/Category.dart';
 import 'add_category_diaog.dart';
 import 'category_card.dart';
 import 'category_detail.dart';
+import '../../../models/category_model/Category.dart';
 
 class Categories extends StatefulWidget {
   @override

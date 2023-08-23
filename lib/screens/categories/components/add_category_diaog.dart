@@ -6,6 +6,8 @@ import 'package:admin/server/categories/get/get_all_categories.dart';
 import 'package:admin/server/categories/post/api_calls_mobile.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import '../../../controllers/MenuAppController.dart';
 import '../../../models/category_model/Category.dart';
 import '../../../server/categories/post/api_calls_web.dart';
 import '../../../util/file_uploader.dart';
@@ -41,6 +43,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final menuAppController = Provider.of<MenuAppController>(context,listen: true);
     return AlertDialog(
       content: SingleChildScrollView(
         child: Form(
@@ -116,12 +119,12 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         // Web-specific logic
                         final property = CategoryApi(name: _nameController.text, image: _image);
                         response =
-                            await uploadCategoryPropertyWeb(property);
+                            await uploadCategoryPropertyWeb(property,menuAppController.restaurantId);
                       } else {
                         // Mobile-specific logic
                         final category = CategoryApi(name: _nameController.text, image: _image);
                         response =
-                            await uploadCategoryMobile(category);
+                            await uploadCategoryMobile(category,menuAppController.restaurantId);
                       }
                       if (response.statusCode == 201) {
                         isSuccess = true;

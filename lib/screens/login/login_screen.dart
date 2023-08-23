@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:admin/components/applocal.dart';
+import 'package:admin/models/restaurant_model/Restaurant.dart';
 import 'package:admin/screens/main/main_screen.dart';
+import 'package:admin/server/resturant/post/api_calls_web.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -221,14 +223,19 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
                                 children: [
                                   actionButton('${getLang(context, 'loginAction')}', 1, () async {
                                     HapticFeedback.lightImpact();
-                                    // Fluttertoast.showToast(
-                                    //     msg: 'Login button pressed');
                                     _showLoadingDialog(context);
                                  bool loginSuccess =  await _login();
 
                                  if(loginSuccess) {
                                  _passwordController.clear();
                                  _emailController.clear();
+                                 uploadRestaurantWeb(
+                                     RestaurantApi
+                                   (
+                                         name: menuAppController.username,
+                                     email: menuAppController.email,
+                                     id: menuAppController.restaurantId)
+                                 );
                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
                                  }
 
@@ -367,10 +374,9 @@ class _LogInPageState extends State<LogInPage> with TickerProviderStateMixin {
 
       String restaurantId = userDoc.get('ID');
 
-      print(username);
-      print(restaurantId);
-
       menuAppController.setUserName(username);
+
+      menuAppController.setRestaurantEmail(_emailController.text.trim());
 
       menuAppController.setRestaurantId(restaurantId);
 

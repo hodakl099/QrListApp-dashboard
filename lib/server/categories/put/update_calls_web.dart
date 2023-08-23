@@ -1,7 +1,6 @@
 import 'dart:html' as html;
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-
 import '../../../models/category_model/Category.dart';
 
 Future<http.StreamedResponse> updateCategoryWeb(String id, CategoryApi category) async {

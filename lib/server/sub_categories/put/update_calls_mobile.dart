@@ -3,7 +3,6 @@ import 'package:admin/models/sub_category/SubCategoryModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-import '../../../models/category_model/Category.dart';
 
 Future<http.StreamedResponse> updateSubCategoryMobile(String id, SubCategory subcategory) async {
   var uri = Uri.parse("http://localhost:8080/QrList/subcategory/updateSubCategory/$id");

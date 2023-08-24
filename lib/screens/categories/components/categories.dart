@@ -22,7 +22,8 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
-    _propertiesFuture = fetchAllCategories();
+    final menuAppController = Provider.of<MenuAppController>(context,listen: false);
+    _propertiesFuture = fetchAllCategories(menuAppController.restaurantId);
   }
 
 
@@ -66,7 +67,7 @@ class _CategoriesState extends State<Categories> {
         ValueListenableBuilder(
           valueListenable: _refreshCategoriesNotifier,
           builder: (context, value, child) {
-            _propertiesFuture = fetchAllCategories();
+            _propertiesFuture = fetchAllCategories(menuAppController.restaurantId);
             return FutureBuilder<List<CategoryApi>>(
               future: _propertiesFuture,
               builder: (context, snapshot) {
@@ -126,17 +127,26 @@ class _CategoryListPageState extends State<CategoryListPage> {
   @override
   void initState() {
     super.initState();
-    properties = fetchAllCategories();
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final menuAppController = Provider.of<MenuAppController>(context,listen: false);
+    properties = fetchAllCategories(menuAppController.restaurantId);
   }
 
 
   @override
   Widget build(BuildContext context) {
+    final menuAppController = Provider.of<MenuAppController>(context,listen: false);
     return Scaffold(
       body: ValueListenableBuilder(
         valueListenable: _refreshPropertiesNotifier,
           builder: (context, value, child) {
-            properties = fetchAllCategories();
+            properties = fetchAllCategories(menuAppController.restaurantId);
           print(value);
             return FutureBuilder<List<CategoryApi>>(
               future:properties,

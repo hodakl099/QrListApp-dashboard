@@ -27,8 +27,6 @@ class _SubCategoriesState extends State<SubCategories> {
   @override
   void initState() {
     super.initState();
-
-    _categories = fetchAllCategories();
     _categories?.then((categories) {
       if (categories.isNotEmpty && selectedCategory == null) {
         setState(() {
@@ -36,6 +34,13 @@ class _SubCategoriesState extends State<SubCategories> {
         });
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    final menuAppController = Provider.of<MenuAppController>(context,listen: false);
+    _categories = fetchAllCategories(menuAppController.restaurantId);
+    super.didChangeDependencies();
   }
 
 

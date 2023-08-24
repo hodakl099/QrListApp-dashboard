@@ -44,6 +44,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
     _subCategories = getSubCategoriesById(widget.selectedCategory);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

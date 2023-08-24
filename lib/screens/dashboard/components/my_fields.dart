@@ -16,11 +16,12 @@ class _CategoriesState extends State<Categories> {
 
 
 
+
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
     final menuAppController = Provider.of<MenuAppController>(context,listen: true);
     _propertiesFuture = fetchAllCategories(menuAppController.restaurantId);
+    super.didChangeDependencies();
   }
 
 

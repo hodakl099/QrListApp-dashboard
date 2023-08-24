@@ -35,15 +35,17 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   final FileUploader fileUploader =
       kIsWeb ? FileUploaderWeb() : FileUploaderMobile();
 
+
   @override
-  void initState() {
-    super.initState();
-    categoriesFuture = fetchAllCategories();
+  void didChangeDependencies() {
+    final menuAppController = Provider.of<MenuAppController>(context,listen: false);
+    categoriesFuture = fetchAllCategories(menuAppController.restaurantId);
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    final menuAppController = Provider.of<MenuAppController>(context,listen: true);
+    final menuAppController = Provider.of<MenuAppController>(context,listen: false);
     return AlertDialog(
       content: SingleChildScrollView(
         child: Form(
@@ -130,7 +132,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                         isSuccess = true;
                         message = '${getLang(context, 'successMessage')}';
                         setState(() {
-                          categoriesFuture = fetchAllCategories();
+                          categoriesFuture = fetchAllCategories(menuAppController.restaurantId);
                         });
                         Navigator.of(context).pop();
                         widget.refreshCategoriesNotifier.value++;

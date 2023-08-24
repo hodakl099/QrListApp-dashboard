@@ -136,6 +136,8 @@ Widget buildNetworkImage({
 }) {
   String? imageUrl = category.image;  // Directly get the imageUrl field
 
+  print('image:' + imageUrl!);
+
   return Container(
     padding: EdgeInsets.all(padding),
     height: height,

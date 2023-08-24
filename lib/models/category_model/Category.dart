@@ -13,14 +13,14 @@ class CategoryApi {
   CategoryApi.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
-        image = json['image'] ?? "";
+        image = json['imageUrl'];
 
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
-      'image': image,
+      'imageUrl': image,
     };
   }
 }

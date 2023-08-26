@@ -43,6 +43,8 @@
   "enterValidEmail" : "Please enter a valid email",
   "enterValidPassword" : "Please enter a password",
   "characterLimits" : "Password must be at least 6 characters long",
-  "products" : "Products"
+  "products" : "Products",
+  "price" : "price",
+  "Please enter a Category price" : "Please enter a Category price"
 
 }

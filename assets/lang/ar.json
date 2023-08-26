@@ -43,5 +43,7 @@
   "enterValidEmail" : "ايرجى إدخال البريد الإلكتروني الصحيح",
   "enterValidPassword" : "الرجاء إدخال كلمة المرور",
   "characterLimits" : "الرقم السري يجب الا يقل عن 6 احرف على الاقل",
-  "products" : "المنتجات"
+  "products" : "المنتجات",
+  "price" : "السعر",
+  "Please enter a Category price" : "الرجاء إدخال سعر الفئة"
 }

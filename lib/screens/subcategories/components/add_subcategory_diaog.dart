@@ -32,6 +32,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
 
   dynamic _image;
 
@@ -64,6 +65,17 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                   return null;
                 },
                 keyboardType: TextInputType.text,
+              ),
+              TextFormField(
+                controller: _priceController,
+                decoration: InputDecoration(labelText: "${getLang(context, 'price')}"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '${getLang(context, 'Please enter a Category price')}';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.number,
               ),
               SizedBox(height: 8),
               ElevatedButton(
@@ -119,12 +131,12 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final subCategory = SubCategory(name: _nameController.text, image: _image);
+                        final subCategory = SubCategory(name: _nameController.text, image: _image, price : _priceController.text as double);
                         response =
                             await uploadSubCategoryWeb(subCategory,widget.selectedCategory);
                       } else {
                         // Mobile-specific logic
-                        final subCategory = SubCategory(name:_nameController.text, image: _image);
+                        final subCategory = SubCategory(name:_nameController.text, image: _image, price : _priceController.text as double);
                         response =
                             await uploadSubCategoryMobile(subCategory,widget.selectedCategory);
                       }

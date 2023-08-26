@@ -33,6 +33,7 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _nameController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
 
   dynamic _image;
 
@@ -77,6 +78,17 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                       return null;
                     },
                     keyboardType: TextInputType.text,
+                  ),
+                  TextFormField(
+                    controller: _priceController,
+                    decoration: InputDecoration(labelText: "${getLang(context, 'price')}"),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter Category price';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 8),
                   ElevatedButton(
@@ -133,12 +145,12 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                           var response;
                           if (kIsWeb) {
                             // Web-specific logic
-                            final category = SubCategory(name: _nameController.text, image: _image);
+                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text as double);
                             response =
                             await updateSubCategoryWeb(widget.property.id!.toString(),category);
                           } else {
                             // Mobile-specific logic
-                            final category = SubCategory(name: _nameController.text, image: _image);
+                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text as double);
                             response =
                             await updateSubCategoryMobile(widget.property.id!.toString(),category);
                           }

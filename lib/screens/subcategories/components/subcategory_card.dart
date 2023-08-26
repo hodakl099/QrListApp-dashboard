@@ -121,6 +121,17 @@ class SubCategoryCard extends StatelessWidget {
                       .copyWith(color: Colors.white),
                 ),
               ),
+              Flexible(
+                child: Text(
+                  category.price ?? '',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(color: Colors.white),
+                ),
+              ),
             ],
           ),
         ],

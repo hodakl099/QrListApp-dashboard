@@ -7,7 +7,8 @@ Future<http.StreamedResponse> updateSubCategoryWeb(String id, SubCategory subcat
   var uri = Uri.parse("http://localhost:8080/QrList/subcategory/updateSubCategory/$id");
   var request = http.MultipartRequest("PUT", uri)
     ..fields['name'] = subcategory.name;
-  var imageFile = subcategory.image;
+  var imageFile = subcategory.image
+    ..fields['price'] = subcategory.price;
 
   if (imageFile is html.File) {
     final reader = html.FileReader();

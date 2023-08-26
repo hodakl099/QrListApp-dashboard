@@ -14,9 +14,6 @@ import '../../../util/file_uploader_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 
-
-
-
 class AddSubCategoryDialog extends StatefulWidget {
   final ValueNotifier<int> refreshCategoriesNotifier;
   final String selectedCategory;
@@ -131,12 +128,12 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final subCategory = SubCategory(name: _nameController.text, image: _image, price : _priceController.text as double);
+                        final subCategory = SubCategory(name: _nameController.text, image: _image, price : _priceController.text);
                         response =
                             await uploadSubCategoryWeb(subCategory,widget.selectedCategory);
                       } else {
                         // Mobile-specific logic
-                        final subCategory = SubCategory(name:_nameController.text, image: _image, price : _priceController.text as double);
+                        final subCategory = SubCategory(name:_nameController.text, image: _image, price : _priceController.text);
                         response =
                             await uploadSubCategoryMobile(subCategory,widget.selectedCategory);
                       }

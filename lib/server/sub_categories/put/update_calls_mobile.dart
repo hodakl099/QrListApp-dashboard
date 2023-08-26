@@ -7,7 +7,8 @@ import 'package:http_parser/http_parser.dart';
 Future<http.StreamedResponse> updateSubCategoryMobile(String id, SubCategory subcategory) async {
   var uri = Uri.parse("http://localhost:8080/QrList/subcategory/updateSubCategory/$id");
   var request = http.MultipartRequest("PUT", uri)
-    ..fields['name'] = subcategory.name;
+    ..fields['name'] = subcategory.name
+    ..fields['price'] = subcategory.price;
 
   var imageFile = subcategory.image;
 

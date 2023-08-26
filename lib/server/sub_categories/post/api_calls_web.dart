@@ -7,7 +7,8 @@ import '../../../models/sub_category/SubCategoryModel.dart';
 Future<http.StreamedResponse> uploadSubCategoryWeb(SubCategory category,String categoryId) async {
   var uri = Uri.parse("http://localhost:8080/QrList/subcategory/AddSubCategory/$categoryId");
   var request = http.MultipartRequest("POST", uri)
-    ..fields['name'] = category.name;
+    ..fields['name'] = category.name
+    ..fields['price'] = category.price;
 
   if (category.image != null) {
     var imageFile = category.image;

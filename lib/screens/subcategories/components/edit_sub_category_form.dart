@@ -145,12 +145,12 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                           var response;
                           if (kIsWeb) {
                             // Web-specific logic
-                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text as double);
+                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text);
                             response =
                             await updateSubCategoryWeb(widget.property.id!.toString(),category);
                           } else {
                             // Mobile-specific logic
-                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text as double);
+                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text);
                             response =
                             await updateSubCategoryMobile(widget.property.id!.toString(),category);
                           }

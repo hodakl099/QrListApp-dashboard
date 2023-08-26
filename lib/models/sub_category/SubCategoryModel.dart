@@ -5,7 +5,7 @@ class SubCategory {
   final String name;
   final dynamic image;
   final String? categoryId;
-  final double price;
+  final String price;
 
   SubCategory({
      this.id, required this.name, required this.image,  this.categoryId,required this.price});
@@ -16,7 +16,7 @@ class SubCategory {
         name: json['name'],
         image: json['image'],
         categoryId: json['categoryId'].toString(),
-        price: json['price']
+        price: json['price'].toString()
     );
   }
   Map<String, dynamic> toJson() {
@@ -25,7 +25,7 @@ class SubCategory {
       'name' : name,
       'image' : image,
       'categoryId' : categoryId,
-      'price' : price
+      'price' : price.toString()
     };
   }
 }

@@ -74,7 +74,6 @@ class SubCategoryCard extends StatelessWidget {
                                     toastLength: Toast.LENGTH_LONG,
                                     msg: '${getLang(context, 'Failed to delete Category')}'
                                 );
-
                               }
                             },
                           ),
@@ -108,7 +107,7 @@ class SubCategoryCard extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Flexible(
                 child: Text(
@@ -122,8 +121,8 @@ class SubCategoryCard extends StatelessWidget {
                 ),
               ),
               Flexible(
-                child: Text(
-                  category.price ?? '',
+              child: Text(
+                 category.price +   ' د.ل',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
@@ -150,7 +149,7 @@ Widget buildNetworkImage({
   String? imageUrl = category.image;  // Directly get the imageUrl field
 
   return Container(
-    padding: EdgeInsets.all(padding),
+    // padding: EdgeInsets.all(padding),
     height: height,
     width: width,
     decoration: BoxDecoration(

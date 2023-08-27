@@ -14,7 +14,7 @@ class SubCategory {
     return SubCategory(
         id: json['id'].toString(),
         name: json['name'],
-        image: json['image'],
+        image: json['imageUrl'],
         categoryId: json['categoryId'].toString(),
         price: json['price'].toString()
     );
@@ -23,7 +23,7 @@ class SubCategory {
     return {
       'id' : id,
       'name' : name,
-      'image' : image,
+      'imageUrl' : image,
       'categoryId' : categoryId,
       'price' : price.toString()
     };

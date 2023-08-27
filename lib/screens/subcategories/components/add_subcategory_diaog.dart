@@ -65,7 +65,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(labelText: "${getLang(context, 'price')}"),
+                decoration: InputDecoration(labelText: "${getLang(context, 'price')}",suffix: Text('LYD')),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '${getLang(context, 'Please enter a Category price')}';

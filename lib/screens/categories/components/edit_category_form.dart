@@ -34,6 +34,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
   TextEditingController _nameController = TextEditingController();
 
   dynamic _image;
+  String? objectName;
 
   final FileUploader fileUploader =
   kIsWeb ? FileUploaderWeb() : FileUploaderMobile();
@@ -84,6 +85,7 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
                       if (files.isNotEmpty) {
                         setState(() {
                           _image = files[0];
+                          objectName = _image.name;
                         });
                       }
                     },
@@ -129,12 +131,12 @@ class _EditCategoryFormState extends State<EditCategoryForm> {
                           var response;
                           if (kIsWeb) {
                             // Web-specific logic
-                            final category = CategoryApi(name: _nameController.text, image: _image);
+                            final category = CategoryApi(name: _nameController.text, image: _image,objectName: objectName!);
                             response =
                             await updateCategoryWeb(widget.property.id!.toString(),category);
                           } else {
                             // Mobile-specific logic
-                            final category = CategoryApi(name: _nameController.text, image: _image);
+                            final category = CategoryApi(name: _nameController.text, image: _image,objectName: objectName!);
                             response =
                             await updateCategoryMobile(widget.property.id!.toString(),category);
                           }

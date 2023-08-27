@@ -31,7 +31,7 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
   TextEditingController _nameController = TextEditingController();
 
   dynamic _image;
-
+  String? objectName;
   final FileUploader fileUploader =
       kIsWeb ? FileUploaderWeb() : FileUploaderMobile();
 
@@ -71,6 +71,8 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                   if (files.isNotEmpty) {
                     setState(() {
                       _image = files[0];
+                       objectName = _image.name;
+                       print(objectName);
                     });
                   }
                 },
@@ -119,12 +121,12 @@ class _AddCategoryDialogState extends State<AddCategoryDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final property = CategoryApi(name: _nameController.text, image: _image);
+                        final property = CategoryApi(name: _nameController.text, image: _image,objectName: objectName!);
                         response =
                             await uploadCategoryPropertyWeb(property,menuAppController.restaurantId);
                       } else {
                         // Mobile-specific logic
-                        final category = CategoryApi(name: _nameController.text, image: _image);
+                        final category = CategoryApi(name: _nameController.text, image: _image,objectName: objectName!);
                         response =
                             await uploadCategoryMobile(category,menuAppController.restaurantId);
                       }

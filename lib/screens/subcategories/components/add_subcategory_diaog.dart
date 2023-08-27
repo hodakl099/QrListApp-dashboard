@@ -32,6 +32,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
   TextEditingController _priceController = TextEditingController();
 
   dynamic _image;
+  String? objectName;
 
   final FileUploader fileUploader =
       kIsWeb ? FileUploaderWeb() : FileUploaderMobile();
@@ -81,6 +82,7 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                   if (files.isNotEmpty) {
                     setState(() {
                       _image = files[0];
+                      objectName = _image.name;
                     });
                   }
                 },
@@ -128,12 +130,12 @@ class _AddSubCategoryDialogState extends State<AddSubCategoryDialog> {
                       var response;
                       if (kIsWeb) {
                         // Web-specific logic
-                        final subCategory = SubCategory(name: _nameController.text, image: _image, price : _priceController.text);
+                        final subCategory = SubCategory(name: _nameController.text, image: _image, price : _priceController.text,objectName: objectName);
                         response =
                             await uploadSubCategoryWeb(subCategory,widget.selectedCategory);
                       } else {
                         // Mobile-specific logic
-                        final subCategory = SubCategory(name:_nameController.text, image: _image, price : _priceController.text);
+                        final subCategory = SubCategory(name:_nameController.text, image: _image, price : _priceController.text,objectName: objectName);
                         response =
                             await uploadSubCategoryMobile(subCategory,widget.selectedCategory);
                       }

@@ -4,14 +4,15 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 
-Future<http.StreamedResponse> uploadSubCategoryMobile(SubCategory category,String categoryId) async {
+Future<http.StreamedResponse> uploadSubCategoryMobile(SubCategory subCategory,String categoryId) async {
   var uri = Uri.parse("http://localhost:8080/QrList/subcategory/AddSubCategory/{$categoryId}");
   var request = http.MultipartRequest("POST", uri)
-    ..fields['name'] = category.name
-    ..fields['price'] = category.price;
+    ..fields['name'] = subCategory.name
+    ..fields['price'] = subCategory.price
+    ..fields['objectName'] = subCategory.objectName!;
 
-  if (category.image != null) {
-    var imageFile = category.image;
+  if (subCategory.image != null) {
+    var imageFile = subCategory.image;
 
     if (imageFile is File) {
       final stream = imageFile.openRead();

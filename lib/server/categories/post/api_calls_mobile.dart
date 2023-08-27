@@ -6,7 +6,8 @@ import '../../../models/category_model/Category.dart';
 Future<http.StreamedResponse> uploadCategoryMobile(CategoryApi category,String restaurantId) async {
   var uri = Uri.parse("http://localhost:8080/QrList/category/AddCategory/$restaurantId}");
   var request = http.MultipartRequest("POST", uri)
-    ..fields['name'] = category.name;
+    ..fields['name'] = category.name
+    ..fields['objectName'] = category.objectName;
 
   if (category.image != null) {
     var imageFile = category.image;

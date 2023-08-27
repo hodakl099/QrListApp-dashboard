@@ -36,6 +36,7 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
   TextEditingController _priceController = TextEditingController();
 
   dynamic _image;
+  String? objectName;
 
   final FileUploader fileUploader =
   kIsWeb ? FileUploaderWeb() : FileUploaderMobile();
@@ -97,6 +98,7 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                       if (files.isNotEmpty) {
                         setState(() {
                           _image = files[0];
+                          objectName = _image.name;
                         });
                       }
                     },
@@ -145,12 +147,12 @@ class _EditSubCategoryFormState extends State<EditSubCategoryForm> {
                           var response;
                           if (kIsWeb) {
                             // Web-specific logic
-                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text);
+                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text,objectName: objectName);
                             response =
                             await updateSubCategoryWeb(widget.property.id!.toString(),category);
                           } else {
                             // Mobile-specific logic
-                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text);
+                            final category = SubCategory(name: _nameController.text, image: _image,price : _priceController.text, objectName: objectName);
                             response =
                             await updateSubCategoryMobile(widget.property.id!.toString(),category);
                           }
